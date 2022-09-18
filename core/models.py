@@ -43,7 +43,7 @@ class User(AbstractUser):
     # REQUIRED_FIELDS = ["mobile_number", "email"]
 
     def __str__(self):
-        return f"{self.first_name}/{self.mobile_number}/{self.email}"
+        return f"{self.first_name}/{self.email}"
 
 
 # class User (models.Model):
@@ -76,6 +76,7 @@ class Traning(models.Model):
     status = models.CharField(choices=STATE_CHOICE3, max_length=50)
     Start_traning_date = models.DateField(auto_now=False, auto_now_add=False)
     End_traning_date = models.DateField(auto_now=False, auto_now_add=False)
+    discription = models.TextField(max_length=500,null=True ,blank=True)
 
     def __str__(self):
         return f'{self.status}'
@@ -96,4 +97,4 @@ class Client(models.Model):
     name = models.CharField(max_length=50)
 
     def __str__(self):
-        return f'{self.name}'
+        return f'{self.name}/{self.user}'

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Rolling Stone Top 500 albums of all time</title>
+    <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+        </style>
+        </head>
+    <!-- <meta name="description" content="Rolling Stone magazine's 2012 list of 500 greatest albums of all time with genres."> -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css"> -->
+<!-- 
+    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>  -->
+  </head>
+  <body>
+
+    
+
+
+    <!-- <script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.0.7/daterangepicker.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script> -->
+    <!-- <script type="text/javascript" charset="utf8" src="/DataTables/datatables.js"></script> --> 
+   <div class="container">
+    <div class="py-5 text-center bg-secondary text-white">
+     <h1 class="mb-3">Assign Trannig Or Assignment</h1>
+        <form method='POST' action="/" enctype="multipart/form-data">
+            {% for msg in messages %}
+                {{msg}}
+            {% endfor %}
+            {% csrf_token %}
+        </form>
+    </div>
+   </div>
+   <a href="{% url 'core:add-traning-assign' user_id.pk %}" title="Edit">
+    
+    ADD
+    </a>
+    {% comment %} <button type="button" class="btn btn-primary">Assign Traning</button><br><br> {% endcomment %}
+    <button type="button" class="btn btn-primary">Assign Assignment</button>
+
+<script>
+    $('#search').click(function() {
+        location.reload();
+    });
+</script>
+
+
+  </body>
+</html>

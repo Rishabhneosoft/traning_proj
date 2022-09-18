@@ -1,38 +1,30 @@
 from django.forms import ModelForm
-from .models import User
+from .models import User,Traning
 from django import forms
 from django.forms import CharField, Form, PasswordInput
 from django.utils.translation import gettext_lazy as _
+from datetime import date
 
-
-# class RegisterForm(forms.ModelForm):
-#     # fullname = forms.CharField(max_length=100)
-#     # email = forms.EmailField()
-#     # password = forms.CharField(widget=PasswordInput)
-#     # mobile = forms.CharField()
-#     # address = forms.CharField()
-#     username= forms.CharField(max_length=100,widget= forms.TextInput
-#                            (attrs={'class':'input--style-3','placeholder':"Username"}))
-#     class Meta:
-#         model = User
-#         fields = ["fullname","username","email", "password","mobile","address",]
-#         exclude = ["DOB","gender","field_type","User_type","assigned_client"]
-
-
-# class LoginForm(forms.ModelForm):
-#     # username= forms.CharField(max_length=100,widget= forms.TextInput
-#     #                        (attrs={'class':'input--style-3','placeholder':"Username"}))
-#     email= forms.CharField(max_length=100,widget= forms.TextInput
-#                            (attrs={'class':'input--style-3','placeholder':"Email"}))
-#     password= forms.CharField(max_length=100,widget= forms.PasswordInput
-#                            (attrs={'class':'input--style-3','placeholder':"Password"}))
-#     class Meta:
-#         model = User
-#         fields = ["email", "password",]
 
 STATE_CHOICE2=((
     ('TL','TL'),
     ('Tranni','Tranni'),
+
+))
+
+STATE_CHOICE3=((
+    ('InProcess','InProcess'),
+    ('Complete','Complete'),
+
+))
+
+STATE_CHOICE=((
+    ('Python','Python'),
+    ('Java','Java'),
+    ('React','React'),
+    ('Angular','Angular'),
+    ('Node','Node'),
+    ('PHP','PHP'),
 
 ))
 
@@ -66,4 +58,28 @@ class RegistrationForm(forms.ModelForm):
             "email",
             "password",
             "User_type",
+        )
+
+class TraningForm(forms.ModelForm):
+    user = forms.CharField(label=_("Username"), max_length=30)
+    status = forms.ChoiceField(choices = STATE_CHOICE3, 
+                              initial='', widget=forms.Select(), required=True)
+    traning_topic = forms.ChoiceField(choices = STATE_CHOICE, 
+                              initial='', widget=forms.Select(), required=True)
+    # sale_date = forms.DateField(widget=forms.DateInput(format='%d%m%Y'),input_formats=['%d%m%Y'])
+    Start_traning_date= forms.DateField(widget= forms.TextInput
+                           (attrs={'class':"input--style-3 js-datepicker",'placeholder':"Start_traning_date"}))
+    End_traning_date= forms.DateField(widget= forms.TextInput
+                           (attrs={'class':"input--style-3 js-datepicker",'placeholder':"End_traning_date"}))                        
+
+    class Meta:
+        model = Traning
+        fields = (
+            "user",
+            "status",
+            "Start_traning_date",
+            "End_traning_date",
+            "discription",
+            "traning_topic",
+            # "sale_date",
         )

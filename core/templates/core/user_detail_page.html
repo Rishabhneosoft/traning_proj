@@ -1,0 +1,34 @@
+{% extends 'core/base.html' %}
+
+{%load static %}
+{% block content %}
+<body>
+	<center>
+<h3><b><i><u>User Detail</u></i></b></h3>
+<!-- <p><b>Property Picture:<br> </b><img src="{{property.property_pic.url}}"></p> -->
+<p><b>Username:</b> {{user.username}}</p>
+<p><b>Email: </b>{{user.email}}</p>
+<p><b>Gender:</b> {{user.gender}}</p>
+<p><b>address: </b>{{user.address}}</p>
+<p><b>User Type: </b> {{user.User_type}}</p>
+<p><b>Domain Type:</b> {{user.field_type}}</p>
+
+<p><b>Mobile Number: </b>{{user.mobile_number}}</p>
+<p><b>Topic of assignment: </b> {{user.assignment.Topic_of_assignment}}</p>
+<p><b>Start Assignment Date:</b> {{assignment.user.Start_traning_date}}</p>
+<p><b>End Assignment Date:</b> {{assignment.End_traning_date}}</p>
+
+<p><b>Status: </b>{{traning.status}}</p>
+<p><b>Start traning date: </b> {{traning.Topic_of_assignment}}</p>
+<p><b>End traning date:</b> {{traning.End_traning_date}}</p>
+
+
+<a href="{% url 'core:review' %}">Review</a>
+<p><b>Review: </b>{{review.review}}</p>
+
+
+
+</center>
+</body>
+{% endblock %}
+

@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+{%load static %}
+{% block content %}
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">NeoSoft Traning Portal</a>
+          </div>
+          <ul class="nav navbar-nav">
+            <li><a href="{% url 'core:about' %}">Assignment</a></li>
+            <li><a href="{% url 'core:about' %}">Traning Status</a></li>
+            <li><a href="{% url 'core:about' %}">Client</a></li>
+            
+            <li><a href="{% url 'core:about' %}">About</a></li>
+            <li><a href="{% url 'core:login'  %}">Logout</a></li>
+
+          </ul>
+        </div>
+      </nav>
+      
+      <div class="container">
+        <h2>Login User</h2>
+        <p><b>NAME:</b>{{user.email}}</p>
+        <p><b>User Type:</b>{{user.User_type}}</p>
+        <p><b>Domain Type:</b>{{user.field_type}}</p>
+        <p><b>Contect No:</b>{{user.mobile_number}}</p>
+      </div>
+</body>
+{% endblock %}
