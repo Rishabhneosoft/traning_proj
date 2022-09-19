@@ -20,7 +20,9 @@ urlpatterns = [
 
     path('review/',ReviewView.as_view(),name='review'),
     path('traning/<int:pk>/',TraningView.as_view(),name='traning'),
+    path('assignment/<int:pk>/',AssignmentView.as_view(),name='assignment'),
 
+    # path('api/register/', RegisterAPI.as_view(), name='register'),
 
     # path('logout/', auth_views.logout, {'next_page': '/login/'}, name='logout'),
 ]

@@ -1,10 +1,14 @@
 from django.forms import ModelForm
-from .models import User,Traning
+from .models import User,Traning,Assignment
 from django import forms
 from django.forms import CharField, Form, PasswordInput
 from django.utils.translation import gettext_lazy as _
 from datetime import date
 
+
+Date_format=['%Y-%m-%d', 
+            '%m/%d/%Y',      
+            '%m/%d/%y']
 
 STATE_CHOICE2=((
     ('TL','TL'),
@@ -61,16 +65,29 @@ class RegistrationForm(forms.ModelForm):
         )
 
 class TraningForm(forms.ModelForm):
-    user = forms.CharField(label=_("Username"), max_length=30)
     status = forms.ChoiceField(choices = STATE_CHOICE3, 
                               initial='', widget=forms.Select(), required=True)
     traning_topic = forms.ChoiceField(choices = STATE_CHOICE, 
                               initial='', widget=forms.Select(), required=True)
+    # Start_traning_date = forms.DateField('%m/%d/%Y')
+    # End_traning_date = forms.DateField('%m/%d/%Y')                        
     # sale_date = forms.DateField(widget=forms.DateInput(format='%d%m%Y'),input_formats=['%d%m%Y'])
-    Start_traning_date= forms.DateField(widget= forms.TextInput
-                           (attrs={'class':"input--style-3 js-datepicker",'placeholder':"Start_traning_date"}))
-    End_traning_date= forms.DateField(widget= forms.TextInput
-                           (attrs={'class':"input--style-3 js-datepicker",'placeholder':"End_traning_date"}))                        
+    # Start_traning_date= forms.DateField(widget= forms.TextInput
+    #                        (attrs={'class':"input--style-3 js-datepicker",'placeholder':"Start_traning_date"}))
+    # End_traning_date= forms.DateField(widget= forms.TextInput
+    #                        (attrs={'class':"input--style-3 js-datepicker",'placeholder':"End_traning_date"}))                        
+
+    Start_traning_date = forms.DateField(input_formats=Date_format)
+    End_traning_date = forms.DateField(input_formats=Date_format)
+
+ # Perhaps you should consider a separator in this format i.e. `%d-%m-%Y` instead of `%d%m%Y`
+
+    def __init__(self, user, *args, **kwargs):
+        super(TraningForm, self).__init__(*args, **kwargs)
+        if user:
+            self.fields["user"].queryset = user
+        
+            
 
     class Meta:
         model = Traning
@@ -81,5 +98,23 @@ class TraningForm(forms.ModelForm):
             "End_traning_date",
             "discription",
             "traning_topic",
-            # "sale_date",
+        )        
+        
+
+class AssignmentForm(forms.ModelForm):
+    user = forms.CharField(label=_("Username"), max_length=30)
+    status = forms.ChoiceField(choices = STATE_CHOICE3, 
+                              initial='', widget=forms.Select(), required=True)
+    Start_traning_date = forms.DateField(input_formats=Date_format)
+    End_traning_date = forms.DateField(input_formats=Date_format)                       
+
+    class Meta:
+        model = Assignment
+        fields = (
+            "user",
+            "status",
+            "Start_traning_date",
+            "End_traning_date",
+            "Topic_of_assignment",
         )
+

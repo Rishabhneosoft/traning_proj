@@ -4,12 +4,12 @@ from django.shortcuts import render, redirect
 # from .form import RegistrationForm,LoginForm
 from django import forms
 from .models import User,Assignment,Traning,Review
-from .forms import RegistrationForm,LoginForm,TraningForm
+from .forms import RegistrationForm,LoginForm,TraningForm,AssignmentForm
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.core.mail import EmailMessage,send_mail, EmailMultiAlternatives
 from django.views.generic import UpdateView
-
+from django.conf import settings
 # class SignupView(View):
 #     def get(self,request):
 #         # if response.
@@ -91,22 +91,19 @@ class DeshbordView(View):
 class UserDetailView(View):
     def get(self,request,*args,**kwargs):
         if request.method == "GET":
-            user = User.objects.filter(pk=request.user.id).last()
-            # user_id = user.objects.get(id=request.user.id)
+            # import pdb;pdb.set_trace()
             user_id=kwargs.get('pk')
-            assignment= Assignment.objects.filter(user_id=user_id)
-            traning = Traning.objects.filter(user_id=user_id)
-            review = Review.objects.filter(user_id=user_id)
-            if user.User_type == 'Tranni':
-                return render(request, 'core/user_detail_page.html', {'user':user ,'assignment':assignment,'traning':traning,'review':review})
-            else:
-                return render(request, 'core/user_detail_page.html', {'user':user,'assignment':assignment,'traning':traning,'review':review})
+            user = User.objects.filter(pk=user_id).last()
+            assignment= Assignment.objects.filter(user_id=user_id).last()
+            traning = Traning.objects.filter(user_id=user_id).last()
+            review = Review.objects.filter(user_id=user_id).last()
+            return render(request, 'core/user_detail_page.html', {'user':user,'assignment':assignment,'traning':traning,'review':review})
 
 
 # class UserUpdateView(UpdateView):
 #     model = User
-#     form_class = PropertyUpdateForm
-#     template_name = "property_update_form.html"
+#     form_class = TraningUpdateForm
+#     template_name = "traning_update.html"
 #     # success_url = reverse_lazy('property_detail')
 #     def get_success_url(self, **kwargs):
 #         return ('/artical/'+str(self.kwargs['pk'])+'/') 
@@ -152,31 +149,64 @@ class ReviewView(View):
 class TraningView(View):
     def get(self, request, *args, **kwargs):
         user_id = kwargs.get('pk')
-        user = User.objects.filter(pk=user_id).last()
-        data = {'user' : user.username}
-        form = TraningForm(initial=data)
+        user = User.objects.filter(pk=user_id)
+        # data = {'user' : user.username}
+        # form = TraningForm(initial=data)
+        form = TraningForm(user)
         return render(request, "core/traning.html", {"form": form,"user_id":user_id})
 
     def post(self, request, *args, **kwargs):
-        form = TraningForm(data=request.POST)
         user_id = kwargs.get('pk')
-        user = User.objects.filter(pk=user_id).last()
+        user = User.objects.filter(pk=user_id)
+        form = TraningForm(user,data=request.POST)
+
+        import pdb;pdb.set_trace()
         if form.is_valid():
-            form.data._mutable = True
-            form.data['user'] = user
-            form.data._mutable = False
+            import pdb;pdb.set_trace()
+            # form.data._mutable = True
+            # form.data['user'] = user
+            # form.data._mutable = False
             form.save()
-            body = "this is OTP "+password+""
-            send_mail = EmailMessage("Traning module will send",body,settings.FROM_EMAIL,to=[user.email])
-            send_mail.send()
-            messages.success(self.request, 'Check Password In Mail')
+            # body = "this is OTP "
+            # send_mail = EmailMessage("Traning module will send",body,settings.FROM_EMAIL,to=[user[0].email])
+            # send_mail.send()
+            # messages.success(self.request, 'Check Password In Mail')
         else:
             message = "Please create again"
             form.error(request, message)
-        return render(request,"core/traning.html",{"form":fm})
+        return render(request,"core/traning.html",{"form":form})
 
 
+class AssignmentView(View):
+    def get(self, request, *args, **kwargs):
+        user_id = kwargs.get('pk')
+        user = User.objects.filter(pk=user_id)
+        # data = {'user' : user.username}
+        # form = TraningForm(initial=data)
+        form = AssignmentForm(user)
+        return render(request, "core/assignment.html", {"form": form,"user_id":user_id})
 
+    def post(self, request, *args, **kwargs):
+        user_id = kwargs.get('pk')
+        import pdb;pdb.set_trace()
+
+        user = User.objects.filter(pk=user_id)
+        form = AssignmentForm(user,data=request.POST)
+
+        if form.is_valid():
+            # import pdb;pdb.set_trace()
+            # form.data._mutable = True
+            # form.data['user'] = user
+            # form.data._mutable = False
+            form.save()
+            # body = "this is OTP "
+            # send_mail = EmailMessage("Traning module will send",body,settings.FROM_EMAIL,to=[user[0].email])
+            # send_mail.send()
+            # messages.success(self.request, 'Check Password In Mail')
+        else:
+            message = "Please create again"
+            form.error(request, message)
+        return render(request,"core/tl_home.html",{"form":form})
 
         # fm = (request.POST)
         # if form.is_valid():
@@ -238,20 +268,48 @@ class TraningView(View):
 
 '''API PART'''
 
-from rest_framework import generics, permissions
-from rest_framework.response import Response
-from knox.models import AuthToken
-from .serializers import UserSerializer, RegisterSerializer
+# from rest_framework import generics, permissions
+# from rest_framework.response import Response
+# from knox.models import AuthToken
+# from .serializer import UserSerializer, RegisterSerializer
 
-# Register API
-class RegisterAPI(generics.GenericAPIView):
-    serializer_class = RegisterSerializer
+# # Register API
+# class RegisterAPI(generics.GenericAPIView):
+#     serializer_class = RegisterSerializer
 
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        return Response({
-        "user": UserSerializer(user, context=self.get_serializer_context()).data,
-        "token": AuthToken.objects.create(user)[1]
-        })
+#     def post(self, request, *args, **kwargs):
+#         import pdb;psb.set_trace()
+#         serializer = self.get_serializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         user = serializer.save()
+#         return Response({
+#         "user": UserSerializer(user, context=self.get_serializer_context()).data,
+#         "token": AuthToken.objects.create(user)[1]
+#         })
+
+
+# from rest_framework.response import Response
+# from rest_framework import status
+# from rest_framework.views import APIView
+# from core.serializers import UserRegistrationSerializer
+# from django.contrib.auth import authenticate
+# # from core.renderers import UserRenderer
+# from rest_framework_simplejwt.tokens import RefreshToken
+# from rest_framework.permissions import IsAuthenticated
+
+# # Generate Token Manually
+# def get_tokens_for_user(user):
+#   refresh = RefreshToken.for_user(user)
+#   return {
+#       'refresh': str(refresh),
+#       'access': str(refresh.access_token),
+#   }
+
+# class UserRegistrationView(APIView):
+#   renderer_classes = [UserRenderer]
+#   def post(self, request, format=None):
+#     serializer = UserRegistrationSerializer(data=request.data)
+#     serializer.is_valid(raise_exception=True)
+#     user = serializer.save()
+#     token = get_tokens_for_user(user)
+#     return Response({'token':token, 'msg':'Registration Successful'}, status=status.HTTP_201_CREATED)

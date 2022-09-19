@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
-    'rest_framework',
-    'knox',
+    # 'rest_framework',
+    # 'knox',
+    # 'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -115,6 +116,12 @@ USE_I18N = True
 USE_TZ = True
 
 
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+#     )
+# }
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
@@ -128,13 +135,13 @@ STATICFILES_DIRS = (
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework.authentication.BasicAuthentication',
-        # 'rest_framework.authentication.SessionAuthentication',
-        'knox.auth.TokenAuthentication',
-    ]
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         # 'rest_framework.authentication.BasicAuthentication',
+#         # 'rest_framework.authentication.SessionAuthentication',
+#         'knox.auth.TokenAuthentication',
+#     ]
+# }
 
 
 # Default primary key field type

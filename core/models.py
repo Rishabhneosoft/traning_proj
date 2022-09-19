@@ -79,7 +79,7 @@ class Traning(models.Model):
     discription = models.TextField(max_length=500,null=True ,blank=True)
 
     def __str__(self):
-        return f'{self.status}'
+        return f'{self.status}/{self.user}'
 
 
 class Assignment(models.Model):

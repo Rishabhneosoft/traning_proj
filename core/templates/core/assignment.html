@@ -8,7 +8,7 @@
 </head>
 <body>
     <form method="POST" class="form-group">
-        <h1>Add New Traning Model</h1>
+        <h1>Add New Assignment Model</h1>
         {% csrf_token %}
         {% for fm in form %}
             {{ fm.label_tag}} {{fm}} {{fm.errors|striptags}}<br><br>
