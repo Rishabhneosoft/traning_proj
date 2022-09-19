@@ -91,7 +91,6 @@ class DeshbordView(View):
 class UserDetailView(View):
     def get(self,request,*args,**kwargs):
         if request.method == "GET":
-            # import pdb;pdb.set_trace()
             user_id=kwargs.get('pk')
             user = User.objects.filter(pk=user_id).last()
             assignment= Assignment.objects.filter(user_id=user_id).last()
@@ -159,10 +158,7 @@ class TraningView(View):
         user_id = kwargs.get('pk')
         user = User.objects.filter(pk=user_id)
         form = TraningForm(user,data=request.POST)
-
-        import pdb;pdb.set_trace()
         if form.is_valid():
-            import pdb;pdb.set_trace()
             # form.data._mutable = True
             # form.data['user'] = user
             # form.data._mutable = False
@@ -188,13 +184,10 @@ class AssignmentView(View):
 
     def post(self, request, *args, **kwargs):
         user_id = kwargs.get('pk')
-        import pdb;pdb.set_trace()
-
         user = User.objects.filter(pk=user_id)
         form = AssignmentForm(user,data=request.POST)
 
         if form.is_valid():
-            # import pdb;pdb.set_trace()
             # form.data._mutable = True
             # form.data['user'] = user
             # form.data._mutable = False
@@ -268,48 +261,23 @@ class AssignmentView(View):
 
 '''API PART'''
 
-# from rest_framework import generics, permissions
-# from rest_framework.response import Response
+from rest_framework import generics, permissions
+from rest_framework.response import Response
 # from knox.models import AuthToken
-# from .serializer import UserSerializer, RegisterSerializer
+from rest_framework.decorators import api_view
+from .serializers import RegistrationSerializer
+@api_view(['POST',])
+def registration_view(request):
 
-# # Register API
-# class RegisterAPI(generics.GenericAPIView):
-#     serializer_class = RegisterSerializer
-
-#     def post(self, request, *args, **kwargs):
-#         import pdb;psb.set_trace()
-#         serializer = self.get_serializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         user = serializer.save()
-#         return Response({
-#         "user": UserSerializer(user, context=self.get_serializer_context()).data,
-#         "token": AuthToken.objects.create(user)[1]
-#         })
-
-
-# from rest_framework.response import Response
-# from rest_framework import status
-# from rest_framework.views import APIView
-# from core.serializers import UserRegistrationSerializer
-# from django.contrib.auth import authenticate
-# # from core.renderers import UserRenderer
-# from rest_framework_simplejwt.tokens import RefreshToken
-# from rest_framework.permissions import IsAuthenticated
-
-# # Generate Token Manually
-# def get_tokens_for_user(user):
-#   refresh = RefreshToken.for_user(user)
-#   return {
-#       'refresh': str(refresh),
-#       'access': str(refresh.access_token),
-#   }
-
-# class UserRegistrationView(APIView):
-#   renderer_classes = [UserRenderer]
-#   def post(self, request, format=None):
-#     serializer = UserRegistrationSerializer(data=request.data)
-#     serializer.is_valid(raise_exception=True)
-#     user = serializer.save()
-#     token = get_tokens_for_user(user)
-#     return Response({'token':token, 'msg':'Registration Successful'}, status=status.HTTP_201_CREATED)
+    if request.method == 'POST':
+        serializer = RegistrationSerializer(data=request.data)
+        data={}
+        if serializer.is_valid():
+            account=serializer.save()
+            data['response']="successful registration"
+            data['email'] = account.email
+            data['username'] = account.username
+            data['mobile_number'] = account.mobile_number
+        else:
+            data = serializer.errors
+        return Response(data)

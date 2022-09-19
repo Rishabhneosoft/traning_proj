@@ -1,52 +1,91 @@
-# # from rest_framework import serializers
-# # from django.contrib.auth.models import User
+from rest_framework import serializers
+from core.models import User
 
-# # # User Serializer
-# # class UserSerializer(serializers.ModelSerializer):
-# #     class Meta:
-# #         model = User
-# #         fields = ('id', 'username', 'email')
+class RegistrationSerializer(serializers.ModelSerializer):
+    password2 = serializers.CharField(style={'input_type': 'password'},write_only=True)
+    mobile_number= serializers.CharField(style={'input_type': 'phonenumber'},write_only=True)
 
-# # # Register Serializer
-# # class RegisterSerializer(serializers.ModelSerializer):
-# #     class Meta:
-# #         model = User
-# #         fields = ('id', 'username', 'email', 'password')
-# #         extra_kwargs = {'password': {'write_only': True}}
+    class Meta:
+        model = User
+        fields = ['email','username','mobile_number','password','password2']
+        extra_kwargs = {
+            'password': {'write_only':True},
+            'mobile_number': {'write_only':True},
+        }
 
-# #     def create(self, validated_data):
-# #         user = User.objects.create_user(validated_data['username'], validated_data['email'], validated_data['password'])
+    def save(self):
+        account = User(
+            email=self.validated_data['email'],
+            username=self.validated_data['username'],
+            mobile_number = self.validated_data['mobile_number'],
 
-# #         return user
+        )
+
+        password = self.validated_data['password']
+        password2 = self.validated_data['password2']
+
+        if password != password2:
+            raise serializers.ValidationError({'password':Password})
+        account.set_password(password)
+        account.save()
+        return account 
+
+# class LoginSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ['email', 'password',]
+
+#         extra_kwargs = {'password': {'write_only': True}}
+
+#     user = User.objects.filter(email=email,password=password)
+#     if user:
+#         print("checked")
+#         return ("hello")
+#     else:
+#         print("checked")
+#         return ("hello")  
 
 
+from django.contrib.auth import authenticate
 
+from rest_framework import serializers
 
+class LoginSerializer(serializers.Serializer):
+    """
+    This serializer defines two fields for authentication:
+      * username
+      * password.
+    It will try to authenticate the user with when validated.
+    """
+    username = serializers.CharField(
+        label="Username",
+        write_only=True
+    )
+    password = serializers.CharField(
+        label="Password",
+        # This will be used when the DRF browsable API is enabled
+        style={'input_type': 'password'},
+        trim_whitespace=False,
+        write_only=True
+    )
 
-# from rest_framework import serializers
-# from core.models import User
-# from django.utils.encoding import smart_str, force_bytes, DjangoUnicodeDecodeError
-# from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-# from django.contrib.auth.tokens import PasswordResetTokenGenerator
-# # from core.utils import Util
+    def validate(self, attrs):
+        # Take username and password from request
+        username = attrs.get('username')
+        password = attrs.get('password')
 
-# class UserRegistrationSerializer(serializers.ModelSerializer):
-#   # We are writing this becoz we need confirm password field in our Registratin Request
-#   password2 = serializers.CharField(style={'input_type':'password'}, write_only=True)
-#   class Meta:
-#     model = User
-#     fields=['email', 'name', 'password', 'password2', 'tc']
-#     extra_kwargs={
-#       'password':{'write_only':True}
-#     }
-
-#   # Validating Password and Confirm Password while Registration
-#   def validate(self, attrs):
-#     password = attrs.get('password')
-#     password2 = attrs.get('password2')
-#     if password != password2:
-#       raise serializers.ValidationError("Password and Confirm Password doesn't match")
-#     return attrs
-
-#   def create(self, validate_data):
-#     return User.objects.create_user(**validate_data)
+        if username and password:
+            # Try to authenticate the user using Django auth framework.
+            user = authenticate(request=self.context.get('request'),
+                                username=username, password=password)
+            if not user:
+                # If we don't have a regular user, raise a ValidationError
+                msg = 'Access denied: wrong username or password.'
+                raise serializers.ValidationError(msg, code='authorization')
+        else:
+            msg = 'Both "username" and "password" are required.'
+            raise serializers.ValidationError(msg, code='authorization')
+        # We have a valid user, put it in the serializer's validated_data.
+        # It will be used in the view.
+        attrs['user'] = user
+        return attrs      
