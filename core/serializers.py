@@ -30,21 +30,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
         account.save()
         return account 
 
-# class LoginSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ['email', 'password',]
-
-#         extra_kwargs = {'password': {'write_only': True}}
-
-#     user = User.objects.filter(email=email,password=password)
-#     if user:
-#         print("checked")
-#         return ("hello")
-#     else:
-#         print("checked")
-#         return ("hello")  
-
 
 from django.contrib.auth import authenticate
 
