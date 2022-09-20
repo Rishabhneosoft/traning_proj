@@ -11,7 +11,7 @@ from django.views.generic import UpdateView
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
-
+# from django.contrib import messages
 
 def user_profile(request):
     return render(request, 'core/profile.html')
@@ -139,7 +139,8 @@ class TraningView(View):
             # messages.success(self.request, 'Check Password In Mail')
         else:
             message = "Please create again"
-            form.error(request, message)
+            # form.error(request, message)
+            messages.error(request, form.errors)
         return render(request,"core/traning.html",{"form":form})
 
 

@@ -2,31 +2,175 @@
 
 {%load static %}
 {% block content %}
+<head>
+    <style>
+        #customers {
+          font-family: Arial, Helvetica, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        #customers td, #customers th {
+          border: 1px solid #ddd;
+          padding: 8px;
+        }
+        
+        #customers tr:nth-child(even){background-color: #f2f2f2;}
+        
+        #customers tr:hover {background-color: #ddd;}
+        
+        #customers th {
+          padding-top: 12px;
+          padding-bottom: 12px;
+          text-align: left;
+          background-color: #04AA6D;
+          color: white;
+        }
+    </style>
+</head>
+
+
 <body>
-	<center>
-<h3><b><i><u>User Detail</u></i></b></h3>
-<!-- <p><b>Property Picture:<br> </b><img src="{{property.property_pic.url}}"></p> -->
-<p><b>Username:</b> {{user}}</p>
-<p><b>Email: </b>{{user.email}}</p>
-<p><b>Gender:</b> {{user.gender}}</p>
-<p><b>address: </b>{{user.address}}</p>
-<p><b>User Type: </b> {{user.User_type}}</p>
-<p><b>Domain Type:</b> {{user.field_type}}</p>
 
-<p><b>Mobile Number: </b>{{user.mobile_number}}</p>
-<p><b>Topic of traning: </b> {{assignment.Topic_of_assignment}}</p>
-<p><b>Start Assignment Date:</b> {{assignment.Start_traning_date}}</p>
-<p><b>End Assignment Date:</b> {{assignment.End_traning_date}}</p>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+		  <div class="navbar-header">
+			<a class="navbar-brand" href="#">NeoSoft Traning Portal</a>
+		  </div>
+		  <ul class="nav navbar-nav">
+			<!-- <li class="active"><a href="#">TL</a></li> -->
+			<li><a href="{% url 'core:tl' %}">Home</a></li>
+			<li><a href="{% url 'core:about' %}">About</a></li>
+			<li><a href="{% url 'core:login' %}">Logout</a></li>
+		  </ul>
+		  
+		  
+		</div>
+	</nav>
 
-<p><b>Status: </b>{{traning.status}}</p>
-<p><b>Start traning date: </b> {{traning.Start_traning_date}}</p>
-<p><b>End traning date:</b> {{traning.End_traning_date}}</p>
+	<div class="jumbotron jumbotron-fluid">
+		<div class="container">
+		  <h1 class="display-4">{{user}} Detail Page</h1>
+		  <p class="lead">Neosoft Traning Portal</p>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="form-group">
+			<label>User</label>
+			<input
+			class="form-control"
+			type="text"
+			formControlName="drive_type"
+			placeholder="Username"
+			value="{{user.first_name}}"
+			/>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="form-group">
+			<label>Email</label>
+			<input
+			class="form-control"
+			type="text"
+			formControlName="drive_type"
+			placeholder="Email"
+			value='{{user.email}}'
+			/>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="form-group">
+			<label>Gender</label>
+			<input
+			class="form-control"
+			type="text"
+			formControlName="drive_type"
+			placeholder="Gender"
+			value='{{user.gender}}'
+			/>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="form-group">
+			<label>address</label>
+			<input
+			class="form-control"
+			type="text"
+			formControlName="drive_type"
+			placeholder="Address"
+			value='{{user.address}}'
+			/>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="form-group"> 
+			<label>User Type</label> 
+			<input class="form-control" type="text" formControlName="drive_type" placeholder="User Type" value="{{user.User_type}}"> 
+		</div> 
+	</div>
+	<div class="col-md-6">
+		<div class="form-group"> 
+			<label>Domain Type</label>
+			<input class="form-control" type="text" formControlName="drive_type" placeholder="Domain Type" value="{{vehicle.transmission}}"> 
+		</div> 
+	</div>
+	<div class="col-md-6">
+		<div class="form-group"> 
+			<label>Mobile Number </label> 
+			<input class="form-control" type="text" formControlName="drive_type" placeholder="Mobile number" value="{{vehicle.model}}">
+		</div>
+	</div>
+
+	<div class="col-md-6">
+		<div class="form-group">
+			<label>Topic of traning</label>
+			<input
+			class="form-control"
+			type="text"
+			formControlName="drive_type"
+			placeholder="Topic Of Traning"
+			value="{{assignment.Topic_of_assignment}}"
+			/>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="form-group">
+			<label>Start Traning Date</label>
+			<input
+			class="form-control"
+			type="text"
+			formControlName="drive_type"
+			placeholder="Start Traning Date"
+			value='{{traning.Start_traning_date}}'
+			/>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="form-group">
+			<label>End Traning Date</label>
+			<input
+			class="form-control"
+			type="text"
+			formControlName="drive_type"
+			placeholder="End Traning Date"
+			value='{{traning.End_traning_date}}'
+			/>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="form-group">
+			<label>Review</label>
+			<input
+			class="form-control"
+			type="text"
+			formControlName="drive_type"
+			placeholder="Review"
+			value='{{review.review}}'
+			/>
+		</div>
+	</div>
 
 
-<a href="{% url 'core:review' %}">Review</a>
-<p><b>Review: </b>{{review.review}}</p>
-
-</center>
 </body>
 {% endblock %}
 

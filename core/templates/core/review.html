@@ -1,6 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
+{% extends 'core/base.html' %}
+{%load static %}
+{% block content %}
+<head>
     <style>
         #customers {
           font-family: Arial, Helvetica, sans-serif;
@@ -26,35 +27,31 @@
         }
     </style>
 </head>
+
 <body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">NeoSoft Traning Portal</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <!-- <li class="active"><a href="#">TL</a></li> -->
+        <li><a href="{% url 'core:tl' %}">Home</a></li>
+        <li><a href="{% url 'core:about' %}">About</a></li>
+        <li><a href="{% url 'core:login' %}">Logout</a></li>
+      </ul>
+      
+      
+    </div>
+  </nav>
 
-        <!-- jQuery source -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    </head>
-    <body>
-      <div class="col-sm-12">
-        <table class="table table-bordered " id="customers" align="center">
-            <!-- <tr>
-                <td colspan="8">Tranni User List</td>
-            </tr> -->
-            <tr>
-                <th>Username</th>
-                <th>Assignment Name</th>
-                <th>Review</th>
-                <th>Status</th>
-      
-      
-            </tr>
-            {% for i in tranie %}
-                <tr>
-                    <td>{{i.username|safe}}</td>
-                    <td>{{i.Topic_of_assignment|safe}}</td>
-                    <td>{{i.review|safe}}</td>
-                    <td class="pt-3-half" contenteditable="true">{{i.status|safe}}</td>
-      
-                </tr>
-            {% endfor %}
-        </table>
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-4">Review</h1>
+      <p class="lead">Neosoft Traning Portal</p>
+    </div>
+  </div>
 </body>
-</html>
 
+
+{% endblock %}

@@ -18,15 +18,62 @@
         </div>
       </nav>
       
-      <div class="container">
-        <h2>Login User</h2>
-        <p><b>NAME:</b>{{user.email}}</p>
-        <p><b>User Type:</b>{{user.User_type}}</p>
-        <p><b>Domain Type:</b>{{user.field_type}}</p>
-        <p><b>Contect No:</b>{{user.mobile_number}}</p>
-        {{user.id}}
-        
 
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4">{{user.first_name}} Home Page</h1>
+          <p class="lead">Neosoft Traning Portal</p>
+        </div>
       </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>User</label>
+          <input
+          class="form-control"
+          type="text"
+          formControlName="drive_type"
+          placeholder="Username"
+          value="{{user.first_name}}"
+          />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Email</label>
+          <input
+          class="form-control"
+          type="text"
+          formControlName="drive_type"
+          placeholder="Username"
+          value="{{user.email}}"
+          />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>User Type</label>
+          <input
+          class="form-control"
+          type="text"
+          formControlName="drive_type"
+          placeholder="Username"
+          value="{{user.User_type}}"
+          />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Contact No</label>
+          <input
+          class="form-control"
+          type="text"
+          formControlName="drive_type"
+          placeholder="Username"
+          value="{{user.mobile_number}}"
+          />
+        </div>
+      </div>   
+
+
 </body>
 {% endblock %}
