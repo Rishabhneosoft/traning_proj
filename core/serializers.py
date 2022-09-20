@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from core.models import User
+from django.contrib.auth import authenticate
+from rest_framework import serializers
 
 class RegistrationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={'input_type': 'password'},write_only=True)
@@ -31,10 +33,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
         return account 
 
 
-from django.contrib.auth import authenticate
-
-from rest_framework import serializers
-
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(
         label="Username",
@@ -49,7 +47,6 @@ class LoginSerializer(serializers.Serializer):
     )
 
     def validate(self, attrs):
-        # Take username and password from request
         username = attrs.get('username')
         password = attrs.get('password')
 
@@ -59,23 +56,13 @@ class LoginSerializer(serializers.Serializer):
         #         'The phone number is already registered.')
 
         if username and password:
-            # Try to authenticate the user using Django auth framework.
             user = authenticate(request=self.context.get('request'),
                                 username=username, password=password)
             if not user:
-                # If we don't have a regular user, raise a ValidationError
                 msg = 'Access denied: wrong username or password.'
                 raise serializers.ValidationError(msg, code='authorization')
         else:
             msg = 'Both "username" and "password" are required.'
             raise serializers.ValidationError(msg, code='authorization')
-        # We have a valid user, put it in the serializer's validated_data.
-        # It will be used in the view.
         attrs['user'] = user
         return attrs
-# def validate(self, attrs):
-#         phone = attrs.get('phone_number')
-#         if User.objects.filter(phone_number=phone):
-#             raise serializers.ValidationError(
-#                 'The phone number is already registered.')
-#         return attrs   

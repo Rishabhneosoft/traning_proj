@@ -69,14 +69,6 @@ class TraningForm(forms.ModelForm):
                               initial='', widget=forms.Select(), required=True)
     traning_topic = forms.ChoiceField(choices = STATE_CHOICE, 
                               initial='', widget=forms.Select(), required=True)
-    # Start_traning_date = forms.DateField('%m/%d/%Y')
-    # End_traning_date = forms.DateField('%m/%d/%Y')                        
-    # sale_date = forms.DateField(widget=forms.DateInput(format='%d%m%Y'),input_formats=['%d%m%Y'])
-    # Start_traning_date= forms.DateField(widget= forms.TextInput
-    #                        (attrs={'class':"input--style-3 js-datepicker",'placeholder':"Start_traning_date"}))
-    # End_traning_date= forms.DateField(widget= forms.TextInput
-    #                        (attrs={'class':"input--style-3 js-datepicker",'placeholder':"End_traning_date"}))                        
-
     Start_traning_date = forms.DateField(input_formats=Date_format)
     End_traning_date = forms.DateField(input_formats=Date_format)
 
@@ -100,13 +92,47 @@ class TraningForm(forms.ModelForm):
             "traning_topic",
         )        
         
+class TraningUpdateForm(forms.ModelForm):
+    status = forms.ChoiceField(choices = STATE_CHOICE3, 
+                              initial='', widget=forms.Select(), required=True)
+    traning_topic = forms.ChoiceField(choices = STATE_CHOICE, 
+                              initial='', widget=forms.Select(), required=True)
+    Start_traning_date = forms.DateField(input_formats=Date_format)
+    End_traning_date = forms.DateField(input_formats=Date_format)
+
+ # Perhaps you should consider a separator in this format i.e. `%d-%m-%Y` instead of `%d%m%Y`
+
+    def __init__(self, user, *args, **kwargs):
+        super(TraningUpdateForm, self).__init__(*args, **kwargs)
+        if user:
+            self.fields["user"].queryset = user
+        
+            
+
+    class Meta:
+        model = Traning
+        fields = (
+            "user",
+            "status",
+            "Start_traning_date",
+            "End_traning_date",
+            "discription",
+            "traning_topic",
+        )        
+
+
 
 class AssignmentForm(forms.ModelForm):
-    user = forms.CharField(label=_("Username"), max_length=30)
+    # user = forms.CharField(label=_("Username"), max_length=30)
     status = forms.ChoiceField(choices = STATE_CHOICE3, 
                               initial='', widget=forms.Select(), required=True)
     Start_traning_date = forms.DateField(input_formats=Date_format)
-    End_traning_date = forms.DateField(input_formats=Date_format)                       
+    End_traning_date = forms.DateField(input_formats=Date_format) 
+
+    def __init__(self, user, *args, **kwargs):
+        super(AssignmentForm, self).__init__(*args, **kwargs)
+        if user:
+            self.fields["user"].queryset = user                      
 
     class Meta:
         model = Assignment
