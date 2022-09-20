@@ -261,11 +261,17 @@ class AssignmentView(View):
 
 '''API PART'''
 
+
+from rest_framework import permissions
+from rest_framework import views
+from rest_framework.response import Response
+from rest_framework import status
+from . import serializers
 from rest_framework import generics, permissions
 from rest_framework.response import Response
-# from knox.models import AuthToken
 from rest_framework.decorators import api_view
 from .serializers import RegistrationSerializer
+
 @api_view(['POST',])
 def registration_view(request):
 
@@ -282,14 +288,8 @@ def registration_view(request):
             data = serializer.errors
         return Response(data)
 
-from rest_framework import permissions
-from rest_framework import views
-from rest_framework.response import Response
-from rest_framework import status
-from . import serializers
 
 class LoginView(views.APIView):
-    # This view should be accessible also for unauthenticated users.
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request, format=None):
@@ -300,6 +300,3 @@ class LoginView(views.APIView):
         login(request, user)
         res = {"message":"User Login Successfully"}
         return Response(data=res, status=status.HTTP_200_OK)
-            
-
-# 

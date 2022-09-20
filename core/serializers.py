@@ -36,12 +36,6 @@ from django.contrib.auth import authenticate
 from rest_framework import serializers
 
 class LoginSerializer(serializers.Serializer):
-    """
-    This serializer defines two fields for authentication:
-      * username
-      * password.
-    It will try to authenticate the user with when validated.
-    """
     username = serializers.CharField(
         label="Username",
         write_only=True
@@ -59,6 +53,11 @@ class LoginSerializer(serializers.Serializer):
         username = attrs.get('username')
         password = attrs.get('password')
 
+        # phone = attrs.get('phone_number')
+        # if User.objects.filter(mobile_number=phone):
+        #     raise serializers.ValidationError(
+        #         'The phone number is already registered.')
+
         if username and password:
             # Try to authenticate the user using Django auth framework.
             user = authenticate(request=self.context.get('request'),
@@ -73,4 +72,10 @@ class LoginSerializer(serializers.Serializer):
         # We have a valid user, put it in the serializer's validated_data.
         # It will be used in the view.
         attrs['user'] = user
-        return attrs      
+        return attrs
+# def validate(self, attrs):
+#         phone = attrs.get('phone_number')
+#         if User.objects.filter(phone_number=phone):
+#             raise serializers.ValidationError(
+#                 'The phone number is already registered.')
+#         return attrs   

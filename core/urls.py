@@ -27,7 +27,7 @@ urlpatterns = [
     path('assignment/<int:pk>/',AssignmentView.as_view(),name='assignment'),
 
     path('api/register/', registration_view, name='register'),
-    path('login/', LoginView.as_view()),
+    path('api/login/', LoginView.as_view()),
 
     # path('logout/', auth_views.logout, {'next_page': '/login/'}, name='logout'),
 ]
