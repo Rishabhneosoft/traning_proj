@@ -17,7 +17,7 @@ urlpatterns = [
     path('review/',ReviewView.as_view(),name='review'),
     path('traning/<int:pk>/',TraningView.as_view(),name='traning'),
     path('assignment/<int:pk>/',AssignmentView.as_view(),name='assignment'),
-    # path('traning-update/<int:pk>/',TraningUpdateView.as_view(),name='traning-update'),
+    path('traning-update/<int:pk>/',TraningUpdateView.as_view(),name='traning-update'),
 
     path('api/register/', registration_view, name='register'),
     path('api/login/', UserLoginView.as_view()),

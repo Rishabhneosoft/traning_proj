@@ -97,6 +97,28 @@ class ReviewView(View):
             review = Review.objects.filter(user_id=user_id)
             return render(request, "core/review.html",{'assignment':assignment,'review':review,'user':user})
 
+class TraningUpdateView(View):
+    def get(self, request, *args, **kwargs):
+        user_id = kwargs.get('pk')
+        user = User.objects.filter(pk=user_id)
+        traning=Traning.objects.filter(user=user[0]).last()
+        form = TraningUpdateForm(user,initial={'user': traning.user,
+        'status': traning.status,
+        'Start_taning_date':traning.Start_traning_date,
+        'End_traning_date':traning.End_traning_date,
+        'traning_topic':traning,
+        'discription':traning.discription})
+
+        return render(request, "core/traning_update.html", {"form": form,"user_id":user_id})
+
+    def post(self, request, *args, **kwargs): 
+        user_id = kwargs.get('pk')
+        user = User.objects.filter(pk=user_id) 
+        form = TraningUpdateForm(user,request.POST)  
+        if form.is_valid():  
+            form.save()  
+            return redirect("core/tl/")  
+        return render(request, 'core/traning_update.html', {'user': user})
 
 class TraningView(View):
     def get(self, request, *args, **kwargs):
