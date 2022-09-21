@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import User,Traning,Assignment
+from .models import User,Traning,Assignment,Review
 from django import forms
 from django.forms import CharField, Form, PasswordInput
 from django.utils.translation import gettext_lazy as _
@@ -17,6 +17,7 @@ STATE_CHOICE2=((
 ))
 
 STATE_CHOICE3=((
+    ('InActive','InActive'),
     ('InProcess','InProcess'),
     ('Complete','Complete'),
 
@@ -50,8 +51,8 @@ class RegistrationForm(forms.ModelForm):
     mobile_number = forms.CharField(label=_("Mobile number"), max_length=30)
     email = forms.CharField(label=_("Email"), max_length=30)
     password = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
-    User_type = forms.ChoiceField(choices = STATE_CHOICE2, 
-                              initial='', widget=forms.Select(), required=True)
+    # User_type = forms.ChoiceField(choices = STATE_CHOICE2, 
+    #                           initial='', widget=forms.Select(), required=True)
     class Meta:
         model = User
         fields = (
@@ -61,7 +62,7 @@ class RegistrationForm(forms.ModelForm):
             "mobile_number",
             "email",
             "password",
-            "User_type",
+            # "User_type",
         )
 
 class TraningForm(forms.ModelForm):
@@ -144,3 +145,22 @@ class AssignmentForm(forms.ModelForm):
             "Topic_of_assignment",
         )
 
+
+class ReviewForm(forms.ModelForm):
+    # username = forms.CharField(label=_("Username"), max_length=30)
+
+ # Perhaps you should consider a separator in this format i.e. `%d-%m-%Y` instead of `%d%m%Y`
+    def __init__(self, user, *args, **kwargs):
+        super(ReviewForm, self).__init__(*args, **kwargs)
+        if user:
+            self.fields["user"].queryset = user
+        
+            
+
+    class Meta:
+        model = Review
+        fields = (
+            "user",
+            "review",
+            
+        ) 

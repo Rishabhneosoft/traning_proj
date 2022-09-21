@@ -1,42 +1,107 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form method="POST" class="form-group">
-        {% csrf_token %}
-        {{ fm.as_p}}
-        <button type="submit" class="btn btn-success">Register</button>
-    </form>
-</body>
-</html> -->
-
 <!DOCTYPE html>
+{% load static %}
+{% load widget_tweaks %}
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <title>Login V11</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->  
+  
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor1/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'fonts1/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'fonts1/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor1/animate/animate.css' %}">
+<!--===============================================================================================-->  
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor1/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor1/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css1/util.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css1/main.css' %}">
+<!--===============================================================================================-->
 </head>
 <body>
-    <form method="POST" class="form-group">
-        {% csrf_token %}
-        {% for fm in form %}
-            {{ fm.label_tag}} {{fm}} {{fm.errors|striptags}}<br><br>
-        {% endfor %}
-        <input type="submit" value="submit">
-        <!-- <button type="submit" class="btn btn-success">Register</button> -->
-    </form>
-    {% if messages %}
-    {% for message in messages %}
-    <small {% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}</small>
-    {% endfor %}
-    {% endif %}
-    <a href="{% url 'core:login' %}">Login</a>
+  
+  <div class="limiter">
+    <div class="container-login100">
+      <div class="wrap-login100 p-l-50 p-r-50 p-t-77 p-b-30">
+        <form class="login100-form validate-form" method="Post">
+          {% csrf_token %}
+          <span class="login100-form-title p-b-55">
+            Signup
+          </span>
+
+          <div class="wrap-input100 validate-input m-b-16" data-validate = "Valid email is required: ex@abc.xyz">
+                <label>Username</label>    
+                {{ form.username|add_class:"form-control"|attr:"required:true"|attr:"placeholder:username" }}
+            
+            <span class="focus-input100"></span>
+          </div>
+
+          <div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
+            <label>First name</label>    
+                {{ form.first_name|add_class:"form-control"|attr:"required:true"|attr:"placeholder:username" }}
+            <span class="focus-input100"></span>
+          </div>
+          <div class="wrap-input100 validate-input m-b-16" data-validate = "Valid email is required: ex@abc.xyz">
+            <label>Last name</label>    
+                {{ form.last_name|add_class:"form-control"|attr:"required:true"|attr:"placeholder:username" }}
+            <span class="focus-input100"></span>
+        
+          </div>
+
+          <div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
+            <label>Mobile number</label>    
+                {{ form.mobile_number|add_class:"form-control"|attr:"required:true"|attr:"placeholder:username" }}
+          </div>
+          <div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
+            <label>Email</label>    
+                {{ form.email|add_class:"form-control"|attr:"required:true"|attr:"placeholder:username" }}
+          </div>
+          <div class="wrap-input100 validate-input m-b-16" data-validate = "Valid email is required: ex@abc.xyz">
+            <label>Password</label>    
+                {{ form.password|add_class:"form-control"|attr:"required:true"|attr:"placeholder:username" }}
+          </div>
+            {% if user.User_type == TL %}
+                <h5><b><a href="{% url 'core:about' %}"></a><br><br></b></h5>
+              <!-- {% comment %} <h5><b><a href="{% url 'change_password' %}">change password</a><br><br></b></h5>
+              <h5><b><a href="{% url 'profile_page_rental' %}">USER PROFILE</a></b></h5> {% endcomment %} -->
+            {% else %}
+                <h5><b><a href="{% url 'core:signup' %}"></a><br><br></b></h5>
+
+            {% endif %}
+            <hr>
+          </header>
+          <div class="container-login100-form-btn p-t-25">
+            <button class="login100-form-btn">
+              Signup
+            </button>
+          </div>
+          {{form.user.email}}
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  
+<!--===============================================================================================-->  
+  <script src="/static/vendor1/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+  <script src="/static/vendor1/bootstrap/js/popper.js"></script>
+  <script src="/static/vendor1/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+  <script src="/static/vendor1/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+  <script src="/static/js1/main.js"></script>
+
 </body>
 </html>
+
+

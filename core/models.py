@@ -25,6 +25,7 @@ STATE_CHOICE2=((
 ))
 
 STATE_CHOICE3=((
+    ('InActive','InActive'),
     ('InProcess','InProcess'),
     ('Complete','Complete'),
 

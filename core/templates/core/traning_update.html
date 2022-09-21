@@ -54,17 +54,10 @@
               <p class="lead">Neosoft Traning Portal</p>
             </div>
         </div>
-        {% for field in form %}
-            <div class="row ">
-                <div class="col-md-6 form_field">
-                    <div class="form-group health_form">
-                        {{ field.errors }}
-                        <label>{{ field.label_tag }}</label><br>
-                        {{ field }}
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
+        {% csrf_token %}
+        {% for fm in form %}
+            {{ fm.label_tag}} {{fm}} {{fm.errors|striptags}}<br><br>
+        {% endfor %}
         <input type="submit" value="submit">
     
         <!-- <button type="submit" class="btn btn-success">Register</button> -->

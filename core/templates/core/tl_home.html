@@ -47,7 +47,7 @@
       <div class="col-sm-12">
         <table class="table table-bordered " id="customers">
             <tr>
-                <td colspan="8">Tranni User List</td>
+                <td colspan="8">{{user}}  Tranni User List</td>
             </tr>
             <tr>
                 <th>UserName</th>
@@ -88,7 +88,7 @@
                       
                   </td>
                     <td>
-                      <a href="{% url 'core:review' %}" title="Edit">
+                      <a href="{% url 'core:review' traine.pk %}" title="Edit">
                           Review
                       </a>
                   </td>

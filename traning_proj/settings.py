@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'rest_framework',
+    'widget_tweaks',
     # 'knox',
     # 'rest_framework_simplejwt',
 ]
@@ -145,14 +146,27 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGOUT_URL = 'logout'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = "anymail.backends.sendinblue.EmailBackend"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # FROM_EMAIL = 'traning@gmail.com'
-# EMAIL_USE_TLS = True
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_HOST_USER = 'rishabh.thoughtwin@gmail.com'
-# EMAIL_HOST_PASSWORD = '1211rv1211*'
-# EMAIL_PORT = 587
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'rv934787@gmail.com'
+EMAIL_HOST_PASSWORD = 'xoamddxjdagejihp'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 
+# DEFAULT_FROM_EMAIL='noreply@postyourcars.com'
+# FROM_EMAIL='noreply@postyourcars.com'
+# EMAIL_HOST='email-smtp.us-east-2.amazonaws.com'
+# EMAIL_HOST_USER='AKIAZY4LX5J6EY7PGHOS'
+# EMAIL_HOST_PASSWORD='BOA8LJdyGOzZrLcl3PcyCkh1aSpsRmEBOKmcmXvdew+i'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = #sender's email-id
+# EMAIL_HOST_PASSWORD = 
 # REST_FRAMEWORK = {
 #     'DEFAULT_AUTHENTICATION_CLASSES': [
 #         # 'rest_framework.authentication.BasicAuthentication',
@@ -160,3 +174,17 @@ LOGOUT_URL = 'logout'
 #         'knox.auth.TokenAuthentication',
 #     ]
 # }
+
+# ctx = {'order': order,'order_product':order_product}
+#     message = get_template('mail.html').render(ctx)
+#     customer_email = order.customer.email
+#     subject = "YOUR ORDER"
+#     html_body = 'message hello hhhhhhhhhhhhhhhhhh'
+#     from_email='admin@example.com'
+#     body = message
+#     to=[customer_email,'yashdeep.tiwari@neosoftmail.com']
+
+
+#     message = EmailMultiAlternatives(subject, body, from_email, to)
+#     message.attach_alternative(html_body, "text/html")
+    # message.send()

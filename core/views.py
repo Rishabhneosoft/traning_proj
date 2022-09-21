@@ -3,7 +3,7 @@ from django.contrib.auth import login as auth_login, authenticate
 from django.shortcuts import render, redirect
 from django import forms
 from .models import User,Assignment,Traning,Review
-from .forms import RegistrationForm,LoginForm,TraningForm,AssignmentForm,TraningUpdateForm
+from .forms import RegistrationForm,LoginForm,TraningForm,AssignmentForm,TraningUpdateForm,ReviewForm
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.core.mail import EmailMessage,send_mail, EmailMultiAlternatives
@@ -31,7 +31,7 @@ class RegistrationView(View):
             return redirect("core:login")
         else:
             messages.error(request, form.errors)
-            return HttpResponseRedirect("core/signup/")
+            return HttpResponseRedirect("core:signup")
         return render(request, "core/signup.html", {"form": form})
 
 
@@ -90,12 +90,24 @@ class AboutView(View):
 
 class ReviewView(View):
     def get(self, request, *args, **kwargs):
-        if request.method == "GET":
-            user = User.objects.filter(pk=request.user.id).last()
-            user_id=kwargs.get('pk')
-            assignment= Assignment.objects.filter(user_id=user_id)
-            review = Review.objects.filter(user_id=user_id)
-            return render(request, "core/review.html",{'assignment':assignment,'review':review,'user':user})
+        # if request.method == "GET":
+        user_id=kwargs.get('pk')
+        user = User.objects.filter(pk=user_id)
+        review=Review.objects.filter().last()
+        form = ReviewForm(user)
+        return render(request, "core/review.html", {"form": form,"user_id":user_id})
+
+    def post(self, request, *args, **kwargs): 
+        user_id = kwargs.get('pk')
+        user = User.objects.filter(pk=user_id) 
+        form = ReviewForm(user,request.POST)  
+        if form.is_valid():  
+            form.save()  
+            # return redirect("core:tl")
+        else:
+            message = "Please create again"
+            messages.error(request, form.errors) 
+        return redirect("core:tl")
 
 class TraningUpdateView(View):
     def get(self, request, *args, **kwargs):
@@ -104,7 +116,7 @@ class TraningUpdateView(View):
         traning=Traning.objects.filter(user=user[0]).last()
         form = TraningUpdateForm(user,initial={'user': traning.user,
         'status': traning.status,
-        'Start_taning_date':traning.Start_traning_date,
+        'Start_traning_date':traning.Start_traning_date,
         'End_traning_date':traning.End_traning_date,
         'traning_topic':traning,
         'discription':traning.discription})
@@ -117,8 +129,10 @@ class TraningUpdateView(View):
         form = TraningUpdateForm(user,request.POST)  
         if form.is_valid():  
             form.save()  
-            return redirect("core/tl/")  
+            return redirect("core:tl")  
         return render(request, 'core/traning_update.html', {'user': user})
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import get_template
 
 class TraningView(View):
     def get(self, request, *args, **kwargs):
@@ -133,10 +147,26 @@ class TraningView(View):
         form = TraningForm(user,data=request.POST)
         if form.is_valid():
             form.save()
-            # body = "this is OTP "
-            # send_mail = EmailMessage("Traning module will send",body,settings.FROM_EMAIL,to=[user[0].email])
-            # send_mail.send()
-            # messages.success(self.request, 'Check Password In Mail')
+            body = "this is OTP "
+            send_mail = EmailMessage("Traning module will send",body,to=[user[0].email])
+            # send_mail(subject, message,settings.DEFAULT_FROM_EMAIL,n [cd['recipient']])
+            send_mail.send()
+            messages.success(self.request, 'Check Password In Mail')
+            # ctx = {'order': 'order','order_product':'order_product'}
+            # message = 'get_template('mail.html').render(ctx)'
+            # message = 'get_template.render(ctx)'
+
+            # customer_email = [user[0].email]
+            # subject = "YOUR ORDER"
+            # html_body = 'message hello hhhhhhhhhhhhhhhhhh'
+            # from_email='ytiwari212@gmail.com'
+            # body = message
+            # # to=[customer_email]
+            
+            # message = EmailMultiAlternatives(subject, body, from_email, customer_email)
+            
+            # message.attach_alternative(html_body, "text/html")
+            messages.success(request, 'Successfuly creaeted')
         else:
             message = "Please create again"
             # form.error(request, message)
@@ -155,7 +185,6 @@ class AssignmentView(View):
         user_id = kwargs.get('pk')
         user = User.objects.filter(pk=user_id)
         form = AssignmentForm(user,data=request.POST)
-
         if form.is_valid():
             form.save()
         else:

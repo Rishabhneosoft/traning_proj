@@ -29,6 +29,7 @@
 </head>
 
 <body>
+  <form method="POST" class="form-group">
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -47,10 +48,17 @@
 
   <div class="jumbotron jumbotron-fluid">
     <div class="container">
-      <h1 class="display-4">Review</h1>
+      <h1 class="display-4">{{user}} Review</h1>
       <p class="lead">Neosoft Traning Portal</p>
     </div>
   </div>
+
+  {% csrf_token %}
+     {% for fm in form %}
+         {{ fm.label_tag}} {{fm}} {{fm.errors|striptags}}<br><br>
+     {% endfor %} 
+    <input type="submit" value="submit">
+</form>
 </body>
 
 
