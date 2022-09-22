@@ -7,8 +7,6 @@ from datetime import date
 from django.core.exceptions import ValidationError
 from phonenumber_field.modelfields import PhoneNumberField
 
-
-
 Date_format=['%Y-%m-%d', 
             '%m/%d/%Y',
             # '%d/%m/%Y',      
@@ -52,7 +50,6 @@ class RegistrationForm(forms.ModelForm):
     username = forms.CharField(label=_("Username"), max_length=30)
     first_name = forms.CharField(label=_("First name"), max_length=30)
     last_name = forms.CharField(label=_("Last name"), max_length=30)
-    # mobile_number = forms.PhoneNumberField(label=_("Mobile number"), max_length=30)
     mobile_number = PhoneNumberField(region="SG")
     email = forms.CharField(label=_("Email"), max_length=30)
     password = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
@@ -91,7 +88,7 @@ class TraningForm(forms.ModelForm):
                               initial='', widget=forms.Select(), required=True)
     Start_traning_date = forms.DateField(input_formats=Date_format)
     End_traning_date = forms.DateField(input_formats=Date_format)
-
+    # client = forms.CharField(label=_("Client"), max_length=30)
  # Perhaps you should consider a separator in this format i.e. `%d-%m-%Y` instead of `%d%m%Y`
 
     def __init__(self, user, *args, **kwargs):
@@ -119,7 +116,6 @@ class TraningUpdateForm(forms.ModelForm):
                               initial='', widget=forms.Select(), required=True)
     Start_traning_date = forms.DateField(input_formats=Date_format)
     End_traning_date = forms.DateField(input_formats=Date_format)
-
  # Perhaps you should consider a separator in this format i.e. `%d-%m-%Y` instead of `%d%m%Y`
 
     def __init__(self, user, *args, **kwargs):
@@ -171,6 +167,7 @@ class AssignmentUpdateForm(forms.ModelForm):
                               initial='', widget=forms.Select(), required=True)
     Start_traning_date = forms.DateField(input_formats=Date_format)
     End_traning_date = forms.DateField(input_formats=Date_format)
+    client = forms.CharField(label=_("Client"), max_length=30)
 
  # Perhaps you should consider a separator in this format i.e. `%d-%m-%Y` instead of `%d%m%Y`
 
@@ -187,6 +184,7 @@ class AssignmentUpdateForm(forms.ModelForm):
             "Start_traning_date",
             "End_traning_date",
             "assignment_topic",
+            "client",
         )  
 
 
@@ -207,9 +205,6 @@ class ReviewForm(forms.ModelForm):
         
 
 class ClientForm(forms.Form):
-    # user = forms.CharField(label=_("Username"), max_length=30)
-    # name = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
-
     class Meta:
         model = Client
         fields = (

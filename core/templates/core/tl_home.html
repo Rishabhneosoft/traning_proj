@@ -36,14 +36,21 @@
           </div>
           <ul class="nav navbar-nav">
             <!-- <li class="active"><a href="#">TL</a></li> -->
-            <li><a href="#">User</a></li>
+            <li><a href="{% url 'core:tl-detail' user.id %}">Profile</a></li>
             <li><a href="{% url 'core:about' %}">About</a></li>
             <li><a href="{% url 'core:login' %}">Logout</a></li>
+            <li><a href="{% url 'core:signup' %}">Signup</a></li>
           </ul>
           
           
         </div>
       </nav>
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h2 class="display-4">{{user}} Traninng Portal Home Page</h2>
+          <p class="lead">Neosoft Traning Portal</p>
+        </div>
+      </div>
       <div class="col-sm-12">
         <table class="table table-bordered " id="customers">
             <tr>
@@ -64,10 +71,10 @@
                     <td>{{traine.User_type|safe}}</td>
                     <td>{{traine.field_type|safe}}</td>
                     <td>
-                        <a href="{% url 'core:traning' traine.pk %}" title="Edit">
+                        <a href="{% url 'core:traning' traine.pk %}" title="Add">
                             Add
                         </a>
-                        <a href="{% url 'core:user-detail' traine.pk %}" title="Edit">
+                        <a href="{% url 'core:user-detail' traine.pk %}" title="View">
                           View
                         </a>
                         <a href="{% url 'core:traning-update' traine.pk %}" title="Edit">
@@ -76,10 +83,10 @@
                         
                     </td>
                     <td>
-                      <a href="{% url 'core:assignment' traine.pk %}" title="Edit">
+                      <a href="{% url 'core:assignment' traine.pk %}" title="Add">
                           Add
                       </a>
-                      <a href="{% url 'core:user-detail' traine.pk %}" title="Edit">
+                      <a href="{% url 'core:assign-detail' traine.pk %}" title="View">
                         View
                       </a>
                       <a href="{% url 'core:assignment-update' traine.pk %}" title="Edit">

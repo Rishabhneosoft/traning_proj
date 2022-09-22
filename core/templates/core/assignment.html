@@ -1,6 +1,10 @@
+
+
 {% extends 'core/base.html' %}
 {%load static %}
 {% block content %}
+{% load widget_tweaks %}
+
 <head>
     <style>
         #customers {
@@ -25,6 +29,48 @@
           background-color: #04AA6D;
           color: white;
         }
+        input[type="text"], textarea, input[type="password"] {
+            font-size: 16px;
+            border: 1px solid #ececec75;
+            width: 100%;
+            padding: 12px 20px;
+            margin: 0 0 8px 0;
+            resize: none;
+            background: #f5f5f5;
+            -webkit-appearance: none;
+            border-radius: 2px;
+            font-weight: 200;
+        }
+        
+        .flex-row {
+            display: flex;
+            flex: 1;
+        }
+        
+        .flex-col-sm-5 {
+            flex: 1;
+            padding: 0 10px;
+        }
+        .form-field-wrapper {
+            margin: 0 0 20px 0;
+        }
+        
+        span.input-group-addon {
+            background: transparent;
+            position: absolute;
+            border: 0;
+            top: 41%;
+            right: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-align: right;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
     </style>
 </head>
 
@@ -52,44 +98,56 @@
 		</div>
 	</div>
     <ul class="messages paddingmob  pt-4">
-        {% for message in messages %}
-            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} 
-            <div class="alert alert-danger">
-                <strong>{{ message }}</strong>
-            </div>
-                {% else %}
-                    <div class="alert alert-success">
-                        <strong>{{ message }}</strong>
-                    </div>   
-            {% endif %}
-        {% endfor %}
+      {% for message in messages %}
+               {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} 
+               <div class="alert alert-danger">
+                   <strong>{{ message }}</strong>
+               </div>
+                   {% else %}
+                       <div class="alert alert-success">
+                           <strong>{{ message }}</strong>
+                       </div>   
+               {% endif %}
+       {% endfor %}
 
-    {% if form.errors %}
-    {% for field in form %}
-        {% for error in field.errors %}
-            <div class="alert alert-danger">
-                <strong>{{ field.label }} : {{ error|escape }}</strong>
-            </div>
-        {% endfor %}
-    {% endfor %}
-    {% for error in form.non_field_errors %}
-        <div class="alert alert-danger">
-            <strong>{{ error|escape }}</strong>
-        </div>
-    {% endfor %}
-    {% endif %}
-
+   {% if form.errors %}
+       {% for field in form %}
+           {% for error in field.errors %}
+               <div class="alert alert-danger">
+                   <strong>{{ field.label }} : {{ error|escape }}</strong>
+               </div>
+           {% endfor %}
+       {% endfor %}
+       {% for error in form.non_field_errors %}
+           <div class="alert alert-danger">
+               <strong>{{ error|escape }}</strong>
+           </div>
+       {% endfor %}
+   {% endif %}
     {% csrf_token %}
-    {% for fm in form %}
-        {{ fm.label_tag}} {{fm}} {{fm.errors|striptags}}<br><br>
-    {% endfor %}
     
+    <label>Username:</label>    
+    {% comment %} {{ form.username|add_class:"form-control"|attr:"required:true"|attr:"placeholder:Username" }} {% endcomment %}
+    {% render_field form.user class="form-control" placeholder=field.label %}  <hr>
+    <label>Status:</label>    
+    {% comment %} {{ form.status|add_class:"form-control"|attr:"required:true"|attr:"placeholder:Username" }} {% endcomment %}
+    {% render_field form.status class="form-control" placeholder=field.label %}<hr>
+    <label>Start date:</label>    
+    {% render_field form.Start_traning_date class="form-control" placeholder="YYYY-MM-DD"  %}<hr>
+    <label>End date:</label>    
+    {% render_field form.End_traning_date class="form-control" placeholder="YYYY-MM-DD"  %}<hr>   
+    <label>Topic of assignment:</label>    
+    {% render_field form.Topic_of_assignment class="form-control" placeholder="Topic of assignment"  %}<hr>   
+    <label>Client:</label>    
+    {% render_field form.client class="form-control" placeholder="Client"  %}<hr> 
+
+    
+    {% comment %} {% for fm in form %}
+        {{ fm.label_tag}} {{fm}} {{fm.errors|striptags}}<br><br>
+    {% endfor %} {% endcomment %}
+
     <input type="submit" value="submit">
-    <!-- <button type="submit" class="btn btn-success">Register</button> -->
   </form> 
-
-
 </body>
-
-
 {% endblock %}
+

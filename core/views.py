@@ -11,13 +11,13 @@ from django.views.generic import UpdateView
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
-# from django.contrib import messages
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 
 
 def user_profile(request):
     return render(request, 'core/profile.html')
+
 
 '''User Signup View'''
 class RegistrationView(View):
@@ -38,6 +38,7 @@ class RegistrationView(View):
             return render(request, "core/signup.html", {"form": form})
         return render(request, "core/signup.html", {"form": form})
 
+
 '''User Login Or TL'''
 class LoginView(View):
     def get(self, request, *args, **kwargs):
@@ -52,26 +53,28 @@ class LoginView(View):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                # message = f'Hello {user.username}! You have been logged in'
+                message = f'Hello {user.username}! You have been logged in'
                 return redirect("core:tl")
             else:
                 message = "Please provide valid username and password"
                 messages.error(request, message)
                 return redirect("core:login")
 
+
 '''Deshbord Page'''
 class DeshbordView(View):
     def get(self,request,*args, **kwargs):
         user = User.objects.all()
-
         assignment= Assignment.objects.all()
         review = Review.objects.filter(id=request.user.id)
         user = User.objects.get(id=request.user.id)
+        traning = Traning.objects.filter()
         if user.User_type == 'TL':
             trainees= User.objects.filter(User_type='Tranni')
             return render(request, 'core/tl_home.html', {'user':user ,'assignment':assignment,'trainees':trainees})
         else:
             return render(request, 'core/tranie_home.html', {'user':user ,'assignment':assignment})
+
 
 '''User Datail View'''
 class UserDetailView(View):
@@ -85,16 +88,42 @@ class UserDetailView(View):
             client = Client.objects.filter(user_id=user_id).last()
             return render(request, 'core/user_detail_page.html', {'user':user,'assignment':assignment,'traning':traning,'review':review,'client':client})
 
+
+'''User Assignment Detail View'''
+class UserAssignmentDetailView(View):
+    def get(self,request,*args,**kwargs):
+        if request.method == "GET":
+            user_id=kwargs.get('pk')
+            user = User.objects.filter(pk=user_id).last()
+            assignment= Assignment.objects.filter(user_id=user_id).last()
+            traning = Traning.objects.filter(user_id=user_id).last()
+            review = Review.objects.filter(user_id=user_id).last()
+            client = Client.objects.filter(user_id=user_id).last()
+            return render(request, 'core/user_assign_detail.html', {'user':user,'assignment':assignment,'traning':traning,'review':review,'client':client})
+
+
+'''TL Detail Page'''
+class TLDetailView(View):
+    def get(self,request,*args,**kwargs):
+        if request.method == "GET":
+            user_id=kwargs.get('pk')
+            user = User.objects.filter(pk=user_id).last()
+            assignment= Assignment.objects.filter(user_id=user_id).last()
+            traning = Traning.objects.filter(user_id=user_id).last()
+            review = Review.objects.filter(user_id=user_id).last()
+            client = Client.objects.filter(user_id=user_id).last()
+            return render(request, 'core/tl_detail_page.html', {'user':user,'assignment':assignment,'traning':traning,'review':review,'client':client})
+
+
 '''About View'''
 class AboutView(View):
     def get(self, request, *args, **kwargs):
-        # form = Form()
         return render(request, "core/about.html")
+
 
 '''Review Perticular User '''
 class ReviewView(View):
     def get(self, request, *args, **kwargs):
-        # if request.method == "GET":
         user_id=kwargs.get('pk')
         user = User.objects.filter(pk=user_id)
         review=Review.objects.filter().last()
@@ -107,11 +136,11 @@ class ReviewView(View):
         form = ReviewForm(user,request.POST)  
         if form.is_valid():  
             form.save()  
-            # return redirect("core:tl")
         else:
             message = "Please create again"
             messages.error(request, form.errors) 
         return redirect("core:tl")
+
 
 '''Add Traning Model'''
 class TraningView(View):
@@ -134,7 +163,6 @@ class TraningView(View):
             messages.success(request, 'Successfuly Created')
         else:
             message = "Please create again"
-            # form.error(request, message)
             messages.error(request, form.errors)
         return render(request,"core/traning.html",{"form":form})
 
@@ -158,6 +186,7 @@ class AssignmentView(View):
             message = "Please create again"
             messages.error(request, form.errors)
         return render(request,"core/assignment.html",{"form":form})
+
 
 '''Traning Update View'''
 class TraningUpdateView(View):
@@ -183,17 +212,20 @@ class TraningUpdateView(View):
             return redirect("core:tl")  
         return render(request, 'core/traning_update.html', {'user': user})
 
+
 '''Assignment Upadte View'''
 class AssignmentUpdateView(View):
     def get(self, request, *args, **kwargs):
         user_id = kwargs.get('pk')
         user = User.objects.filter(pk=user_id)
         assignment=Assignment.objects.filter(user=user[0]).last()
+        client=Client.objects.filter(user=user[0]).last()
         form = AssignmentUpdateForm(user,initial={'user': assignment.user,
-        # 'status': .status,
-        'Start_assignment_date':assignment.Start_traning_date,
-        'End_assignment_date':assignment.End_traning_date,
-        'assignment_topic':assignment,})
+        'status': status,
+        'Start_traning_date':assignment.Start_traning_date,
+        'End_traning_date':assignment.End_traning_date,
+        'assignment_topic':assignment,
+        'client':client})
         return render(request, "core/edit_assignment.html", {"form": form,"user_id":user_id})
 
     def post(self, request, *args, **kwargs): 
@@ -206,10 +238,9 @@ class AssignmentUpdateView(View):
             return redirect("core:tl")
         else:
             message = "Please create again"
-            # form.error(request, message)
             messages.error(request, form.errors)
         return render(request,"core/edit_assignment.html",{"form":form})  
-        # return render(request, 'core/edit_assignment.html', {'user': user})
+
 
 '''Client Detail View'''
 class ClientView(View):
@@ -218,12 +249,11 @@ class ClientView(View):
             user_id=kwargs.get('pk')
             user = User.objects.filter(pk=user_id).last()
             client= Client.objects.filter(user_id=user_id).last()
-            assignment= Client.objects.filter(user_id=user_id).last()
+            assignment= Assignment.objects.filter(user_id=user_id).last()
             return render(request, 'core/client.html', {'client':client,'assignment':assignment})
 
 
 '''API PART'''
-
 from rest_framework import permissions
 from rest_framework import views
 from rest_framework.response import Response
@@ -250,6 +280,7 @@ def registration_view(request):
         else:
             data = serializer.errors
         return Response(data)
+
 
 '''User Login API'''
 class UserLoginView(views.APIView):

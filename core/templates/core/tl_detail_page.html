@@ -42,8 +42,7 @@
 			<li><a href="{% url 'core:tl' %}">Home</a></li>
 			<li><a href="{% url 'core:about' %}">About</a></li>
 			<li><a href="{% url 'core:login' %}">Logout</a></li>
-			<li><a href="{% url 'core:signup' %}">Signup</a></li>
-
+            <li><a href="{% url 'core:login' %}">Signup</a></li>
 		  </ul>
 		  
 		  
@@ -52,7 +51,7 @@
 
 	<div class="jumbotron jumbotron-fluid">
 		<div class="container">
-		  <h1 class="display-4">{{user}} Assignment Detail Page</h1>
+		  <h2 class="display-4">{{user}} Detail Page</h2>
 		  <p class="lead">Neosoft Traning Portal</p>
 		</div>
 	</div>
@@ -65,7 +64,7 @@
 			formControlName="drive_type"
 			placeholder="Username"
 			value="{{user.first_name}}"
-			/>
+			readonly/>
 		</div>
 	</div>
 	<div class="col-md-6">
@@ -77,7 +76,7 @@
 			formControlName="drive_type"
 			placeholder="Email"
 			value='{{user.email}}'
-			/>
+			readonly/>
 		</div>
 	</div>
 	<div class="col-md-6">
@@ -89,7 +88,7 @@
 			formControlName="drive_type"
 			placeholder="Gender"
 			value='{{user.gender}}'
-			/>
+			readonly/>
 		</div>
 	</div>
 	<div class="col-md-6">
@@ -101,89 +100,29 @@
 			formControlName="drive_type"
 			placeholder="Address"
 			value='{{user.address}}'
-			/>
+			readonly/>
 		</div>
 	</div>
 	<div class="col-md-6">
 		<div class="form-group"> 
 			<label>User Type</label> 
-			<input class="form-control" type="text" formControlName="drive_type" placeholder="User Type" value="{{user.User_type}}"> 
+			<input class="form-control" type="text" formControlName="drive_type" placeholder="User Type" value="{{user.User_type}}"readonly> 
 		</div> 
 	</div>
-	<div class="col-md-6">
-		<div class="form-group"> 
-			<label>Domain Type</label>
-			<input class="form-control" type="text" formControlName="drive_type" placeholder="Domain Type" value="{{user.field_type}}"> 
-		</div> 
-	</div>
+
 	<div class="col-md-6">
 		<div class="form-group"> 
 			<label>Mobile Number </label> 
-			<input class="form-control" type="text" formControlName="drive_type" placeholder="Mobile number" value="{{user.mobile_number}}">
+			<input class="form-control" type="text" formControlName="drive_type" placeholder="Mobile number" value="{{user.mobile_number}}"readonly>
 		</div>
 	</div>
 
-	<div class="col-md-6">
-		<div class="form-group">
-			<label>Topic of Assignment</label>
-			<input
-			class="form-control"
-			type="text"
-			formControlName="drive_type"
-			placeholder="Topic Of Assignment"
-			value="{{assignment.Topic_of_assignment}}"
-			/>
+    <div class="col-md-6">
+		<div class="form-group"> 
+			<label>Domain </label> 
+			<input class="form-control" type="text" formControlName="drive_type" placeholder="Mobile number" value="{{user.field_type}}"readonly>
 		</div>
 	</div>
-	<div class="col-md-6">
-		<div class="form-group">
-			<label>Start Assignment Date</label>
-			<input
-			class="form-control"
-			type="text"
-			formControlName="drive_type"
-			placeholder="Start Assignment Date"
-			value='{{ assignment.Start_traning_date }}'
-			/>
-		</div>
-	</div>
-	<div class="col-md-6">
-		<div class="form-group">
-			<label>End Assignment Date</label>
-			<input
-			class="form-control"
-			type="text"
-			formControlName="drive_type"
-			placeholder="End Assignment Date"
-			value='{{assignment.End_traning_date}}'
-			/>
-		</div>
-	</div>
-	<div class="col-md-6">
-		<div class="form-group">
-			<label>Review</label>
-			<input
-			class="form-control"
-			type="text"
-			formControlName="drive_type"
-			placeholder="Review"
-			value='{{review.review}}'
-			/>
-		</div>
-	</div>
-	<div class="col-md-6">
-		<div class="form-group">
-			<label>Client</label>
-			<input
-			class="form-control"
-			type="text"
-			formControlName="drive_type"
-			placeholder="Client"
-			value='{{client.name}}'
-			/>
-		</div>
-	</div>
-
 
 </body>
 {% endblock %}

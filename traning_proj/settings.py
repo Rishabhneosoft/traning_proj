@@ -41,8 +41,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'widget_tweaks',
     'phonenumber_field',
-    # 'knox',
-    # 'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [

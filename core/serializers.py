@@ -22,7 +22,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
             mobile_number = self.validated_data['mobile_number'],
 
         )
-
         password = self.validated_data['password']
         password2 = self.validated_data['password2']
 
@@ -40,7 +39,6 @@ class LoginSerializer(serializers.Serializer):
     )
     password = serializers.CharField(
         label="Password",
-        # This will be used when the DRF browsable API is enabled
         style={'input_type': 'password'},
         trim_whitespace=False,
         write_only=True
@@ -49,12 +47,6 @@ class LoginSerializer(serializers.Serializer):
     def validate(self, attrs):
         username = attrs.get('username')
         password = attrs.get('password')
-
-        # phone = attrs.get('phone_number')
-        # if User.objects.filter(mobile_number=phone):
-        #     raise serializers.ValidationError(
-        #         'The phone number is already registered.')
-
         if username and password:
             user = authenticate(request=self.context.get('request'),
                                 username=username, password=password)
