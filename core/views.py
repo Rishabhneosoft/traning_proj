@@ -2,8 +2,8 @@ from django.shortcuts import render, HttpResponseRedirect
 from django.contrib.auth import login as auth_login, authenticate
 from django.shortcuts import render, redirect
 from django import forms
-from .models import User,Assignment,Traning,Review
-from .forms import RegistrationForm,LoginForm,TraningForm,AssignmentForm,TraningUpdateForm,ReviewForm
+from .models import User,Assignment,Traning,Review,Client
+from .forms import RegistrationForm,LoginForm,TraningForm,AssignmentForm,TraningUpdateForm,ReviewForm,AssignmentUpdateForm,ClientForm
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.core.mail import EmailMessage,send_mail, EmailMultiAlternatives
@@ -12,11 +12,14 @@ from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 # from django.contrib import messages
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import get_template
+
 
 def user_profile(request):
     return render(request, 'core/profile.html')
 
-
+'''User Signup View'''
 class RegistrationView(View):
     def get(self, request, *args, **kwargs):
         form = RegistrationForm()
@@ -30,11 +33,12 @@ class RegistrationView(View):
             messages.success(request, "User Registered Successfully")
             return redirect("core:login")
         else:
-            messages.error(request, form.errors)
-            return HttpResponseRedirect("core:signup")
+            message = "Please provide valid detail"
+            messages.error(request, message)
+            return render(request, "core/signup.html", {"form": form})
         return render(request, "core/signup.html", {"form": form})
 
-
+'''User Login Or TL'''
 class LoginView(View):
     def get(self, request, *args, **kwargs):
         form = LoginForm()
@@ -55,7 +59,7 @@ class LoginView(View):
                 messages.error(request, message)
                 return redirect("core:login")
 
-
+'''Deshbord Page'''
 class DeshbordView(View):
     def get(self,request,*args, **kwargs):
         user = User.objects.all()
@@ -65,12 +69,11 @@ class DeshbordView(View):
         user = User.objects.get(id=request.user.id)
         if user.User_type == 'TL':
             trainees= User.objects.filter(User_type='Tranni')
-
             return render(request, 'core/tl_home.html', {'user':user ,'assignment':assignment,'trainees':trainees})
         else:
             return render(request, 'core/tranie_home.html', {'user':user ,'assignment':assignment})
 
-
+'''User Datail View'''
 class UserDetailView(View):
     def get(self,request,*args,**kwargs):
         if request.method == "GET":
@@ -79,15 +82,16 @@ class UserDetailView(View):
             assignment= Assignment.objects.filter(user_id=user_id).last()
             traning = Traning.objects.filter(user_id=user_id).last()
             review = Review.objects.filter(user_id=user_id).last()
-            return render(request, 'core/user_detail_page.html', {'user':user,'assignment':assignment,'traning':traning,'review':review})
+            client = Client.objects.filter(user_id=user_id).last()
+            return render(request, 'core/user_detail_page.html', {'user':user,'assignment':assignment,'traning':traning,'review':review,'client':client})
 
-
+'''About View'''
 class AboutView(View):
     def get(self, request, *args, **kwargs):
         # form = Form()
         return render(request, "core/about.html")
 
-
+'''Review Perticular User '''
 class ReviewView(View):
     def get(self, request, *args, **kwargs):
         # if request.method == "GET":
@@ -109,31 +113,7 @@ class ReviewView(View):
             messages.error(request, form.errors) 
         return redirect("core:tl")
 
-class TraningUpdateView(View):
-    def get(self, request, *args, **kwargs):
-        user_id = kwargs.get('pk')
-        user = User.objects.filter(pk=user_id)
-        traning=Traning.objects.filter(user=user[0]).last()
-        form = TraningUpdateForm(user,initial={'user': traning.user,
-        'status': traning.status,
-        'Start_traning_date':traning.Start_traning_date,
-        'End_traning_date':traning.End_traning_date,
-        'traning_topic':traning,
-        'discription':traning.discription})
-
-        return render(request, "core/traning_update.html", {"form": form,"user_id":user_id})
-
-    def post(self, request, *args, **kwargs): 
-        user_id = kwargs.get('pk')
-        user = User.objects.filter(pk=user_id) 
-        form = TraningUpdateForm(user,request.POST)  
-        if form.is_valid():  
-            form.save()  
-            return redirect("core:tl")  
-        return render(request, 'core/traning_update.html', {'user': user})
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import get_template
-
+'''Add Traning Model'''
 class TraningView(View):
     def get(self, request, *args, **kwargs):
         user_id = kwargs.get('pk')
@@ -147,33 +127,18 @@ class TraningView(View):
         form = TraningForm(user,data=request.POST)
         if form.is_valid():
             form.save()
-            body = "this is OTP "
+            body = "Hello you have assign.traning model! Please Check NeoSoft Traning Portal"
             send_mail = EmailMessage("Traning module will send",body,to=[user[0].email])
-            # send_mail(subject, message,settings.DEFAULT_FROM_EMAIL,n [cd['recipient']])
             send_mail.send()
-            messages.success(self.request, 'Check Password In Mail')
-            # ctx = {'order': 'order','order_product':'order_product'}
-            # message = 'get_template('mail.html').render(ctx)'
-            # message = 'get_template.render(ctx)'
-
-            # customer_email = [user[0].email]
-            # subject = "YOUR ORDER"
-            # html_body = 'message hello hhhhhhhhhhhhhhhhhh'
-            # from_email='ytiwari212@gmail.com'
-            # body = message
-            # # to=[customer_email]
-            
-            # message = EmailMultiAlternatives(subject, body, from_email, customer_email)
-            
-            # message.attach_alternative(html_body, "text/html")
-            messages.success(request, 'Successfuly creaeted')
+            messages.success(self.request, ' Mail Send Successfully')
+            messages.success(request, 'Successfuly Created')
         else:
             message = "Please create again"
             # form.error(request, message)
             messages.error(request, form.errors)
         return render(request,"core/traning.html",{"form":form})
 
-
+'''Add Assignment View'''
 class AssignmentView(View):
     def get(self, request, *args, **kwargs):
         user_id = kwargs.get('pk')
@@ -187,10 +152,74 @@ class AssignmentView(View):
         form = AssignmentForm(user,data=request.POST)
         if form.is_valid():
             form.save()
+            return redirect("core:tl")
+
         else:
             message = "Please create again"
-            form.error(request, message)
-        return render(request,"core/tl_home.html",{"form":form})
+            messages.error(request, form.errors)
+        return render(request,"core/assignment.html",{"form":form})
+
+'''Traning Update View'''
+class TraningUpdateView(View):
+    def get(self, request, *args, **kwargs):
+        user_id = kwargs.get('pk')
+        user = User.objects.filter(pk=user_id)
+        traning=Traning.objects.filter(user=user[0]).last()
+        form = TraningUpdateForm(user,initial={'user': traning.user,
+        'status': traning.status,
+        'Start_traning_date':traning.Start_traning_date,
+        'End_traning_date':traning.End_traning_date,
+        'traning_topic':traning,
+        'discription':traning.discription})
+        return render(request, "core/traning_update.html", {"form": form,"user_id":user_id})
+
+    def post(self, request, *args, **kwargs): 
+        user_id = kwargs.get('pk')
+        user = User.objects.filter(pk=user_id) 
+        form = TraningUpdateForm(user,request.POST)  
+        if form.is_valid():  
+            form.save()
+            messages.success(self.request, ' Mail Send Successfully')
+            return redirect("core:tl")  
+        return render(request, 'core/traning_update.html', {'user': user})
+
+'''Assignment Upadte View'''
+class AssignmentUpdateView(View):
+    def get(self, request, *args, **kwargs):
+        user_id = kwargs.get('pk')
+        user = User.objects.filter(pk=user_id)
+        assignment=Assignment.objects.filter(user=user[0]).last()
+        form = AssignmentUpdateForm(user,initial={'user': assignment.user,
+        # 'status': .status,
+        'Start_assignment_date':assignment.Start_traning_date,
+        'End_assignment_date':assignment.End_traning_date,
+        'assignment_topic':assignment,})
+        return render(request, "core/edit_assignment.html", {"form": form,"user_id":user_id})
+
+    def post(self, request, *args, **kwargs): 
+        user_id = kwargs.get('pk')
+        user = User.objects.filter(pk=user_id) 
+        form = AssignmentUpdateForm(user,request.POST)  
+        if form.is_valid():  
+            form.save() 
+            messages.success(self.request, 'Updated Successfuly') 
+            return redirect("core:tl")
+        else:
+            message = "Please create again"
+            # form.error(request, message)
+            messages.error(request, form.errors)
+        return render(request,"core/edit_assignment.html",{"form":form})  
+        # return render(request, 'core/edit_assignment.html', {'user': user})
+
+'''Client Detail View'''
+class ClientView(View):
+    def get(self,request,*args,**kwargs):
+        if request.method == "GET":
+            user_id=kwargs.get('pk')
+            user = User.objects.filter(pk=user_id).last()
+            client= Client.objects.filter(user_id=user_id).last()
+            assignment= Client.objects.filter(user_id=user_id).last()
+            return render(request, 'core/client.html', {'client':client,'assignment':assignment})
 
 
 '''API PART'''
@@ -205,6 +234,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializers import RegistrationSerializer
 
+'''User Signup API'''
 @api_view(['POST',])
 def registration_view(request):
 
@@ -221,7 +251,7 @@ def registration_view(request):
             data = serializer.errors
         return Response(data)
 
-
+'''User Login API'''
 class UserLoginView(views.APIView):
     permission_classes = (permissions.AllowAny,)
 

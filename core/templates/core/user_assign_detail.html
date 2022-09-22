@@ -92,7 +92,7 @@
 	</div>
 	<div class="col-md-6">
 		<div class="form-group">
-			<label>address</label>
+			<label>Address</label>
 			<input
 			class="form-control"
 			type="text"
@@ -117,7 +117,7 @@
 	<div class="col-md-6">
 		<div class="form-group"> 
 			<label>Mobile Number </label> 
-			<input class="form-control" type="text" formControlName="drive_type" placeholder="Mobile number" value="{{vehicle.model}}">
+			<input class="form-control" type="text" formControlName="drive_type" placeholder="Mobile number" value="{{user.mobile_number}}">
 		</div>
 	</div>
 
@@ -129,7 +129,7 @@
 			type="text"
 			formControlName="drive_type"
 			placeholder="Topic Of Assignment"
-			value="{{assignment.Topic_of_assignment}}"
+			value="{{assignment.assignment_topic}}"
 			/>
 		</div>
 	</div>
@@ -141,7 +141,7 @@
 			type="text"
 			formControlName="drive_type"
 			placeholder="Start Assignment Date"
-			value='{{ traning.Start_traning_date }}'
+			value='{{ assignment.Start_traning_date }}'
 			/>
 		</div>
 	</div>
@@ -153,7 +153,7 @@
 			type="text"
 			formControlName="drive_type"
 			placeholder="End Assignment Date"
-			value='{{traning.End_traning_date}}'
+			value='{{assignment.End_traning_date}}'
 			/>
 		</div>
 	</div>

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'core',
     'rest_framework',
     'widget_tweaks',
+    'phonenumber_field',
     # 'knox',
     # 'rest_framework_simplejwt',
 ]
@@ -188,3 +189,18 @@ EMAIL_USE_SSL = False
 #     message = EmailMultiAlternatives(subject, body, from_email, to)
 #     message.attach_alternative(html_body, "text/html")
     # message.send()
+
+
+# def clean_email(self):
+#         email = self.cleaned_data.get('email')
+#         username = self.cleaned_data.get('username')
+#         if email and User.objects.filter(email=email).exclude(username=username).exists():
+#             raise forms.ValidationError('Email address already exist.')
+#         return email
+
+
+#  <div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required"{% if form.mobile_number.errors %} has-error {% endif %}>
+#             <label>Mobile number</label>    
+#                 {{ form.mobile_number|add_class:"form-control"|attr:"required:true"|attr:"placeholder:Mobile number" }}
+#                 <div class="help-block">{{ form.mobile_number.errors }}</div>
+#           </div>

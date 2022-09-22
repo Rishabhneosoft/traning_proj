@@ -3,7 +3,7 @@
 {% load widget_tweaks %}
 <html lang="en">
 <head>
-  <title>Login V11</title>
+  <title>Signup V11</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->  
@@ -26,7 +26,7 @@
 <!--===============================================================================================-->
 </head>
 <body>
-  
+
   <div class="limiter">
     <div class="container-login100">
       <div class="wrap-login100 p-l-50 p-r-50 p-t-77 p-b-30">
@@ -35,37 +35,43 @@
           <span class="login100-form-title p-b-55">
             Signup
           </span>
-
-          <div class="wrap-input100 validate-input m-b-16" data-validate = "Valid email is required: ex@abc.xyz">
+        
+          <div class="wrap-input100 validate-input m-b-16" data-validate = "Valid email is required: ex@abc.xyz" {% if form.username.errors %} has-error {% endif %}>
                 <label>Username</label>    
-                {{ form.username|add_class:"form-control"|attr:"required:true"|attr:"placeholder:username" }}
-            
+                {{ form.username|add_class:"form-control"|attr:"required:true"|attr:"placeholder:Username" }}
+                <div class="help-block">{{ form.username.errors }}</div>
             <span class="focus-input100"></span>
           </div>
 
-          <div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
+          <div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required"{% if form.first_name.errors %} has-error {% endif %}>
             <label>First name</label>    
-                {{ form.first_name|add_class:"form-control"|attr:"required:true"|attr:"placeholder:username" }}
+                {{ form.first_name|add_class:"form-control"|attr:"required:true"|attr:"placeholder:First name" }}
+                <div class="help-block">{{ form.first_name.errors }}</div>
             <span class="focus-input100"></span>
           </div>
-          <div class="wrap-input100 validate-input m-b-16" data-validate = "Valid email is required: ex@abc.xyz">
+          <div class="wrap-input100 validate-input m-b-16" data-validate = "Valid email is required: ex@abc.xyz"{% if form.last_name.errors %} has-error {% endif %}>
             <label>Last name</label>    
-                {{ form.last_name|add_class:"form-control"|attr:"required:true"|attr:"placeholder:username" }}
+                {{ form.last_name|add_class:"form-control"|attr:"required:true"|attr:"placeholder:Last name" }}
+                <div class="help-block">{{ form.last_name.errors }}</div>
             <span class="focus-input100"></span>
         
           </div>
 
-          <div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
+          <div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required"{% if form.mobile_number.errors %} has-error {% endif %}>
             <label>Mobile number</label>    
-                {{ form.mobile_number|add_class:"form-control"|attr:"required:true"|attr:"placeholder:username" }}
+                {{ form.mobile_number|add_class:"form-control"|attr:"required:true"|attr:"placeholder:Mobile number" }}
+                <div class="help-block">{{ form.mobile_number.errors }}</div>
           </div>
-          <div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
+          
+          <div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required"{% if form.email.errors %} has-error {% endif %}>
             <label>Email</label>    
-                {{ form.email|add_class:"form-control"|attr:"required:true"|attr:"placeholder:username" }}
+                {{ form.email|add_class:"form-control"|attr:"required:true"|attr:"placeholder:Email" }}
+                <div class="help-block">{{ form.email.errors }}</div>
           </div>
-          <div class="wrap-input100 validate-input m-b-16" data-validate = "Valid email is required: ex@abc.xyz">
+          <div class="wrap-input100 validate-input m-b-16" data-validate = "Valid email is required: ex@abc.xyz"{% if form.password.errors %} has-error {% endif %}>
             <label>Password</label>    
-                {{ form.password|add_class:"form-control"|attr:"required:true"|attr:"placeholder:username" }}
+                {{ form.password|add_class:"form-control"|attr:"required:true"|attr:"placeholder:Password" }}
+                <div class="help-block">{{ form.password.errors }}</div>
           </div>
             {% if user.User_type == TL %}
                 <h5><b><a href="{% url 'core:about' %}"></a><br><br></b></h5>
@@ -82,13 +88,13 @@
               Signup
             </button>
           </div>
-          {{form.user.email}}
             </a>
           </div>
         </form>
       </div>
     </div>
   </div>
+
   
   
 <!--===============================================================================================-->  

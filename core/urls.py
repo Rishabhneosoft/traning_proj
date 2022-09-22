@@ -1,8 +1,5 @@
 from django.urls import path
 from .views import *
-
-# from .views import RegisterAPI
-# from django.contrib.auth import views as auth_views
 from .views import(
     registration_view,
 )
@@ -18,6 +15,10 @@ urlpatterns = [
     path('traning/<int:pk>/',TraningView.as_view(),name='traning'),
     path('assignment/<int:pk>/',AssignmentView.as_view(),name='assignment'),
     path('traning-update/<int:pk>/',TraningUpdateView.as_view(),name='traning-update'),
+    path('assignment-update/<int:pk>/',AssignmentUpdateView.as_view(),name='assignment-update'),
+    path('client/<int:pk>/',ClientView.as_view(),name='client'),
+
+
 
 # '''API URL'''
     path('api/register/', registration_view, name='register'),

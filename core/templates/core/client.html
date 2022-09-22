@@ -1,0 +1,107 @@
+{% extends 'core/base.html' %}
+{%load static %}
+{% block content %}
+<head>
+    <style>
+        #customers {
+          font-family: Arial, Helvetica, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        #customers td, #customers th {
+          border: 1px solid #ddd;
+          padding: 8px;
+        }
+        
+        #customers tr:nth-child(even){background-color: #f2f2f2;}
+        
+        #customers tr:hover {background-color: #ddd;}
+        
+        #customers th {
+          padding-top: 12px;
+          padding-bottom: 12px;
+          text-align: left;
+          background-color: #04AA6D;
+          color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">NeoSoft Traning Portal</a>
+          </div>
+          <ul class="nav navbar-nav">
+            <!-- <li class="active"><a href="#">TL</a></li> -->
+            <li><a href="{% url 'core:tl' %}">Home</a></li>
+            <li><a href="{% url 'core:about' %}">About</a></li>
+            <li><a href="{% url 'core:login' %}">Logout</a></li>
+          </ul>
+          
+          
+        </div>
+      </nav>
+      <form method="POST" class="form-group">
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+              <h1 class="display-4">{{user}} Client Page</h1>
+              <p class="lead">Neosoft Traning Portal</p>
+            </div>
+        </div> 
+         
+             <div class="col-md-6">
+                <div class="form-group">
+                    <label>User</label>
+                    <input
+                    class="form-control"
+                    type="text"
+                    formControlName="drive_type"
+                    placeholder="Username"
+                    value="{{user.first_name}}"
+                    readonly/>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Client</label>
+                    <input
+                    class="form-control"
+                    type="text"
+                    formControlName="drive_type"
+                    placeholder="Client"
+                    value='{{client}}'
+                    readonly/>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Assignment</label>
+                    <input
+                    class="form-control"
+                    type="text"
+                    formControlName="drive_type"
+                    placeholder="Assignment"
+                    value="{{assignment.Topic_of_assignment}}"
+                    readonly/>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Domain</label>
+                    <input
+                    class="form-control"
+                    type="text"
+                    formControlName="drive_type"
+                    placeholder="Domain"
+                    value='{{user.field_type}}'
+                    readonly/>
+                </div>
+            </div>
+        <!-- <button type="submit" class="btn btn-success">Register</button> -->
+      </form> 
+    
+    
+    </body>
+    {% endblock %}

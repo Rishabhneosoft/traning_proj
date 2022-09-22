@@ -63,7 +63,7 @@
 			formControlName="drive_type"
 			placeholder="Username"
 			value="{{user.first_name}}"
-			/>
+			readonly/>
 		</div>
 	</div>
 	<div class="col-md-6">
@@ -92,47 +92,47 @@
 	</div>
 	<div class="col-md-6">
 		<div class="form-group">
-			<label>address</label>
+			<label>Address</label>
 			<input
 			class="form-control"
 			type="text"
 			formControlName="drive_type"
 			placeholder="Address"
 			value='{{user.address}}'
-			/>
+			readonly/>
 		</div>
 	</div>
 	<div class="col-md-6">
 		<div class="form-group"> 
 			<label>User Type</label> 
-			<input class="form-control" type="text" formControlName="drive_type" placeholder="User Type" value="{{user.User_type}}"> 
+			<input class="form-control" type="text" formControlName="drive_type" placeholder="User Type" value="{{user.User_type}}"readonly> 
 		</div> 
 	</div>
 	<div class="col-md-6">
+		<div class="form-group">
+			<label>Status</label>
+			<input
+			class="form-control"
+			type="text"
+			formControlName="drive_type"
+			placeholder="Status"
+			value='{{traning.status}}'
+			readonly/>
+		</div>
+	</div>
+	<div class="col-md-6">
 		<div class="form-group"> 
-			<label>Domain Type</label>
-			<input class="form-control" type="text" formControlName="drive_type" placeholder="Domain Type" value="{{user.field_type}}"> 
+			<label>Topic Of Traning</label>
+			<input class="form-control" type="text" formControlName="drive_type" placeholder="Topic of Traning" value="{{user.field_type}}"readonly> 
 		</div> 
 	</div>
 	<div class="col-md-6">
 		<div class="form-group"> 
 			<label>Mobile Number </label> 
-			<input class="form-control" type="text" formControlName="drive_type" placeholder="Mobile number" value="{{user.mobile_number}}">
+			<input class="form-control" type="text" formControlName="drive_type" placeholder="Mobile number" value="{{user.mobile_number}}"readonly>
 		</div>
 	</div>
 
-	<div class="col-md-6">
-		<div class="form-group">
-			<label>Topic of traning</label>
-			<input
-			class="form-control"
-			type="text"
-			formControlName="drive_type"
-			placeholder="Topic Of Traning"
-			value="{{assignment.Topic_of_assignment}}"
-			/>
-		</div>
-	</div>
 	<div class="col-md-6">
 		<div class="form-group">
 			<label>Start Traning Date</label>
@@ -142,7 +142,7 @@
 			formControlName="drive_type"
 			placeholder="Start Traning Date"
 			value='{{ traning.Start_traning_date }}'
-			/>
+			readonly/>
 		</div>
 	</div>
 	<div class="col-md-6">
@@ -154,7 +154,56 @@
 			formControlName="drive_type"
 			placeholder="End Traning Date"
 			value='{{traning.End_traning_date}}'
-			/>
+			readonly/>
+		</div>
+	</div>
+
+	<div class="col-md-6">
+		<div class="form-group">
+			<label>Topic of Assignment</label>
+			<input
+			class="form-control"
+			type="text"
+			formControlName="drive_type"
+			placeholder="Topic Of Assignment"
+			value="{{assignment.Topic_of_assignment}}"
+			readonly/>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="form-group">
+			<label>Start Assignment Date</label>
+			<input
+			class="form-control"
+			type="text"
+			formControlName="drive_type"
+			placeholder="Start Assignment Date"
+			value='{{ assignment.Start_traning_date }}'
+			readonly/>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="form-group">
+			<label>End Assignment Date</label>
+			<input
+			class="form-control"
+			type="text"
+			formControlName="drive_type"
+			placeholder="End Assignment Date"
+			value='{{assignment.End_traning_date}}'
+			readonly/>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="form-group">
+			<label>Client</label>
+			<input
+			class="form-control"
+			type="text"
+			formControlName="drive_type"
+			placeholder="Client"
+			value='{{client.name}}'
+			readonly/>
 		</div>
 	</div>
 	<div class="col-md-6">
@@ -166,7 +215,7 @@
 			formControlName="drive_type"
 			placeholder="Review"
 			value='{{review.review}}'
-			/>
+			readonly/>
 		</div>
 	</div>
 	<div class="col-md-6">
@@ -178,7 +227,7 @@
 			formControlName="drive_type"
 			placeholder="Discription"
 			value='{{traning.discription}}'
-			/>
+			readonly/>
 		</div>
 	</div>
 
